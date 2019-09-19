@@ -12,7 +12,7 @@
         @close="showDeliverableEditModal = false"
         :currentDeliverable="deliverable"
         :projectsList="projectsList"
-    >
+    />
    
 </div>
 </template>
