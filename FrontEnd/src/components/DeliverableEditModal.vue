@@ -10,7 +10,6 @@
 
           <div class="modal-body">
             
-            {{currentDeliverable.heading}}
            <deliverable-edit-component 
               :currentDeliverable="currentDeliverable"
               :projectsList="projectsList"

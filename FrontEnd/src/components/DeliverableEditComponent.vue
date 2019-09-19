@@ -22,7 +22,7 @@
                 <label>Heading:</label>
                 <br>
                 <textarea
-                    v-model.trim.lazy="this.deliverableToSave.Heading"
+                    v-model.trim.lazy="deliverableToSave.Heading"
                     placeholder="The Heading consists of a brief description of the deliverable."
                 >
                 </textarea>
@@ -30,7 +30,7 @@
 
             <div class="item employee-single-select">
                 <multi-select
-                    v-model="this.deliverableToSave.Lead"
+                    v-model="deliverableToSave.Lead"
                     :options="EmployeesList"
                     :multiple="false"
                     :close-on-select="true"
@@ -46,10 +46,10 @@
             <div class="item priority">
                 <label for="priority-buttons">Priority:</label>
                  <div class="division">
-                  <label for="priority">Priority: (value: {{this.deliverableToSave.Priority}})</label><br>
-                  <radio-button name="priority" label="1" :value="this.deliverableToSave.Priority" textDisplay="Really Important" @change="changeValuePriority"/>
-                  <radio-button name="priority" label="2" :value="this.deliverableToSave.Priority" textDisplay="Somewhat Important" @change="changeValuePriority"/>
-                  <radio-button name="priority" label="3" :value="this.deliverableToSave.Priority" textDisplay="Not Important" @change="changeValuePriority"/>
+                  <label for="priority">Priority: (value: {{deliverableToSave.Priority}})</label><br>
+                  <radio-button name="priority" label="1" :value="deliverableToSave.Priority" textDisplay="Really Important" @change="changeValuePriority"/>
+                  <radio-button name="priority" label="2" :value="deliverableToSave.Priority" textDisplay="Somewhat Important" @change="changeValuePriority"/>
+                  <radio-button name="priority" label="3" :value="deliverableToSave.Priority" textDisplay="Not Important" @change="changeValuePriority"/>
               </div>
             </div>
 
@@ -57,7 +57,7 @@
                 <label class="item-title">Time Estimation (days):</label>
                 <input
                     type="number"
-                    v-model.number="this.deliverableToSave.TimeEstimation"
+                    v-model.number="deliverableToSave.TimeEstimation"
                     placeholder="# of days"
                     min="1"
                     class="item-body"
@@ -66,7 +66,7 @@
 
             <div class="item projects-multi-select">
                 <multi-select
-                    v-model="this.deliverableToSave.ProjectIdList"
+                    v-model="deliverableToSave.ProjectIdList"
                     :options="projectsList"
                     :multiple="true"
                     :close-on-select="false"
@@ -76,7 +76,7 @@
                     track-by="projectId"
                     placeholder="Select Project(s)"
                 />
-                {{this.deliverableToSave.ProjectIdList}}
+                {{deliverableToSave.ProjectIdList}}
             </div>
             
             <div class="item submit">
@@ -163,7 +163,7 @@ export default {
             this.ToggleActive();
         },
         initializeDeliverable(){
-            if(this.currentDeliverable != undefined){
+            if(this.currentDeliverable != null){
                 this.deliverableToSave = {
                     Heading : this.currentDeliverable.heading,
                     Priority: this.currentDeliverable.priority,
@@ -176,16 +176,16 @@ export default {
             else{
                 this.deliverableToSave = {
                     Heading : '',
-                    Priority: null,
-                    Lead: null,
+                    Priority: 0,
+                    Lead: 0,
                     DateScheduledStart: null,
                     TimeEstimation: null,
                     ProjectIdList: []
-                }
+                }                
             }
         },
         changeValuePriority: function(newValue){
-            this.currentDeliverable.priority = newValue;
+            this.deliverableToSave.Priority = newValue;
         },
     }, //methods
 

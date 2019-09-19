@@ -17,11 +17,9 @@
             you can use custom content here to overwrite
             default content
         -->
-        <h3 slot="header">{{deliverable.heading}}</h3>
-        <div slot="body">       
-            
-        </div>
-        
+            <h3 slot="header">{{deliverable.heading}}</h3>
+            <div slot="body"> </div>
+
         </bluf-modal>
 
         <delete-confirmation-modal v-if="showDeleteConfirmation" @no="showDeleteConfirmation = false" @yes="emitMessageAndClose(deliverable)">

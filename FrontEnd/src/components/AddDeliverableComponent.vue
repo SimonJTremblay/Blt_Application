@@ -10,7 +10,7 @@
     <deliverable-edit-modal
         v-if="showDeliverableEditModal"
         @close="showDeliverableEditModal = false"
-        :currentDeliverable="deliverable"
+        :currentDeliverable=null
         :projectsList="projectsList"
     />
    
@@ -80,6 +80,14 @@ export default {
 
     async created() {
         this.getAllEmployees();
+        this.deliverable = {
+            Heading : '',
+            Priority : null,
+            Lead : [],
+            DateScheduledStart : null,
+            TimeEstimation : null,
+            ProjectsSelectedList : null,
+        }
     }//created
 }
 </script>
