@@ -2,7 +2,6 @@
 <!-- 
     Component needs to receive:
         projectsList',
-        'employeeList',
         'currentDeliverable'
     Will emit save-template with deliverableToSave attached
 -->
@@ -111,7 +110,7 @@ export default {
         }
     },//data
     props:
-        ['projectsList','employeeList','currentDeliverable'],
+        ['projectsList','currentDeliverable'],
 
     methods: {
         async getAllEmployees() {

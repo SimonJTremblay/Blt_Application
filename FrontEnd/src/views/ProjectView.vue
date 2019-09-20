@@ -41,6 +41,7 @@
           :key="i"
           :projectsList = "projectsList"
           @deleteDeliverable="deleteDeliverable"
+          @saveDeliverable="updateDeliverable"
         />
       </ul>
     </section> 
@@ -155,6 +156,9 @@ export default {
         this.getDeliverablesFromProject(this.currentProject.projectId);
       }
       
+    },
+    async updateDeliverable(deliverableToUpdate){
+      console.log(deliverableToUpdate);
     }
   } //methods
 }

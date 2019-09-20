@@ -33,6 +33,7 @@
         <deliverable-edit-modal
             v-if="showDeliverableEditModal"
             @close="showDeliverableEditModal = false"
+            @saveDeliverable="sendDeliverableToParent"
             :currentDeliverable="deliverable"
             :projectsList="projectsList"
         >
@@ -96,6 +97,11 @@ export default {
         emitMessageAndClose(deliverable){
             this.$emit('deleteDeliverable', deliverable.deliverableId);
             this.showDeleteConfirmation = false;
+        },
+        sendDeliverableToParent(deliverable){
+            this.$emit('saveDeliverable', deliverable);            
+            this.showDeliverableEditModal = false;
+
         }
     }    
 }

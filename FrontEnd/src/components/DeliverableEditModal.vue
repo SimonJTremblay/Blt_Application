@@ -13,7 +13,7 @@
            <deliverable-edit-component 
               :currentDeliverable="currentDeliverable"
               :projectsList="projectsList"
-              :employeeList="EmployeesList"
+              ref="editedDeliverable"
             />
           </div>
 
@@ -22,7 +22,7 @@
               <button class="modal-default-button" @click="$emit('close')">
                 Cancel
               </button>
-              <button class="modal-default-button" @click="saveBluf">
+              <button class="modal-default-button" @click="sendDeliverableToParent">
                 Save
               </button>
             </slot>
@@ -47,25 +47,10 @@ export default {
       'currentDeliverable',
       'projectsList'
   ],
-  data(){
-      return{
-          errors: [],
-          Heading : '',
-          Priority : null,
-          Lead : [],
-          DateScheduledStart : null,
-          TimeEstimation : null,
-          ProjectsSelectedList : null,
-          EmployeesList: []
-      }
-  },
   methods:{
-    changeValuePriority: function(newValue){
-      this.currentDeliverable.priority = newValue;
-    },
-    saveBluf(){
-      alert('Saved');
-      this.$emit('close');
+    sendDeliverableToParent(){
+      let deliverable = this.$refs.editedDeliverable.deliverableToSave;
+      this.$emit('saveDeliverable', deliverable);
     }
   }
 }
