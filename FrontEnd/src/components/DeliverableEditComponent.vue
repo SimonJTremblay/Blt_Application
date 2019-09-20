@@ -119,10 +119,14 @@ export default {
 
             try {
             this.EmployeesList = await EmployeeApi.getAll();
+            this.getCurrentLeader();
             } finally {
             this.loading = false
             }
         }, 
+        getCurrentLeader(){
+            this.deliverableToSave.Lead = this.EmployeesList.filter(value => value.employeeId == this.deliverableToSave.Lead)
+        },
         checkForm: function (e) {
             //stop default behaviour, ie saving to a file
             e.preventDefault();
@@ -160,7 +164,6 @@ export default {
 
             //send up to parent for save
             this.$emit('save-deliverable',this.deliverableToSave);
-            this.ToggleActive();
         },
         initializeDeliverable(){
             if(this.currentDeliverable != null){
@@ -200,29 +203,6 @@ export default {
 
 <style scoped>
 
-    .wide-rounded{
-        width: 100%;
-        border-radius: 15px;
-    }
-
-    /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
-    .active, .btn:hover {
-        background-color: #ccc;
-    }
-
-    /* Adds a '+' sign at the far right of the button */
-    .btn:after {
-        content: '\002B';
-        color: white;
-        font-weight: bold;
-        float: right;
-    }
-
-    /* When is active, says '(active)' on the far right of the button */
-    .active:after {
-        content: "(active)";
-    }
-
 
 /**********************
     FORM - GRID      
@@ -246,7 +226,7 @@ export default {
     .form-container {
         display: grid;
         grid-gap: 10px;
-        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-columns: 1fr;
         grid-template-rows: repeat(auto-fill, minmax(200px, 1fr));
         grid-template-areas:
             "heading heading ."

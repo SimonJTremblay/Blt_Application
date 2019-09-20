@@ -36,7 +36,6 @@
 </template>
 
 <script>
-import EmployeeApi from '../EmployeeApiFacade'; 
 import DeliverableEditComponent from '../components/DeliverableEditComponent';
 
 

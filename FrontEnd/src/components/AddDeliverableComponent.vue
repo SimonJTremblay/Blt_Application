@@ -74,7 +74,6 @@ export default {
 
             //send up to parent for save
             this.$emit('add-deliverable',deliverableToAdd);
-            this.ToggleActive();
         }
     }, //methods
 
