@@ -14,17 +14,20 @@
               :currentDeliverable="currentDeliverable"
               :projectsList="projectsList"
               ref="editedDeliverable"
+              @close="$emit('close')"
+              @save-deliverable="sendDeliverableToParent"
             />
           </div>
 
           <div class="modal-footer">
             <slot name="footer">
-              <button class="modal-default-button" @click="$emit('close')">
+              <!-- <button class="modal-default-button" @click="$emit('close')">
                 Cancel
               </button>
               <button class="modal-default-button" @click="sendDeliverableToParent">
                 Save
-              </button>
+              </button> -->
+              <h2>This is a footer</h2>
             </slot>
           </div>
 
@@ -48,9 +51,10 @@ export default {
       'projectsList'
   ],
   methods:{
-    sendDeliverableToParent(){
-      let deliverable = this.$refs.editedDeliverable.deliverableToSave;
-      this.$emit('saveDeliverable', deliverable);
+    sendDeliverableToParent(deliverableToSave){
+      //let deliverable = this.$refs.editedDeliverable.deliverableToSave;
+      //this.$emit('saveDeliverable', deliverable);
+      this.$emit('save-deliverable', deliverableToSave)
     }
   }
 }

@@ -3,13 +3,13 @@
     <button 
         class="btn wide-rounded"
         name="addDeliverableBtn"
-        :class = "{'active' : isActive}"
         @click="toggleDeliverableEditModal"
     >Add a Deliverable</button>
     
     <deliverable-edit-modal
         v-if="showDeliverableEditModal"
         @close="showDeliverableEditModal = false"
+        @save-deliverable="sendDeliverableToParent"
         :currentDeliverable=null
         :projectsList="projectsList"
     />
@@ -23,16 +23,11 @@ import DeliverableEditComponent from '../components/DeliverableEditComponent';
 import DeliverableEditModal from "../components/DeliverableEditModal";
 
 export default {
-    name: 'AddDeliverable',
     components:{
         'deliverable-edit-modal': DeliverableEditModal
     },
     data(){
         return{
-            isActive: false,
-            deliverable: null,
-            EmployeesList: [],
-            currentDeliverable: null,
             showDeliverableEditModal: false
         }
     }, //data
@@ -43,51 +38,11 @@ export default {
         toggleDeliverableEditModal(){
             this.showDeliverableEditModal = true;
         },
-        async getAllEmployees() {
-            this.loading = true
-
-            try {
-            this.EmployeesList = await EmployeeApi.getAll();
-            } finally {
-            this.loading = false
-            }
-        }, 
-        addDeliverable(){
-            const ProjectsSelectedIds = [];
-
-            Object.values(this.ProjectsSelectedList).map(value => {
-                Object.entries(value).forEach(item => {
-                    if(item[0] === 'projectId'){
-                        ProjectsSelectedIds.push(item[1]);
-                    }
-                })
-            })
-
-            const deliverableToAdd = {
-                Heading : this.Heading,
-                Priority: this.Priority,
-                Lead: this.Lead.employeeId,
-                DateScheduledStart: this.DateScheduledStart,
-                TimeEstimation: this.TimeEstimation,
-                ProjectIdList: ProjectsSelectedIds
-            }
-
+        sendDeliverableToParent(deliverableToAdd){
             //send up to parent for save
-            this.$emit('add-deliverable',deliverableToAdd);
+            this.$emit('save-deliverable',deliverableToAdd);
         }
     }, //methods
-
-    async created() {
-        this.getAllEmployees();
-        this.deliverable = {
-            Heading : '',
-            Priority : null,
-            Lead : [],
-            DateScheduledStart : null,
-            TimeEstimation : null,
-            ProjectsSelectedList : null,
-        }
-    }//created
 }
 </script>
 

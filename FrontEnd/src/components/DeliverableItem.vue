@@ -33,12 +33,10 @@
         <deliverable-edit-modal
             v-if="showDeliverableEditModal"
             @close="showDeliverableEditModal = false"
-            @saveDeliverable="sendDeliverableToParent"
+            @save-deliverable="sendDeliverableToParent"
             :currentDeliverable="deliverable"
             :projectsList="projectsList"
-        >
-
-        </deliverable-edit-modal>
+        />
     </div>
 </template>
 

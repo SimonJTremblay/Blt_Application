@@ -28,6 +28,9 @@
             </div>
 
             <div class="item employee-single-select">
+            <div>
+                <label>Lead <span class="redish">- optional</span></label>
+            </div>
                 <multi-select
                     v-model="deliverableToSave.Lead"
                     :options="EmployeesList"
@@ -52,8 +55,13 @@
               </div>
             </div>
 
+            <div>
+                <label for="timeScheduledStart">Scheduled Start <span class="redish">- optional</span></label>
+                <input name="timeScheduledStart" type="date">
+            </div>
+
             <div class="item time-estimation">
-                <label class="item-title">Time Estimation (days):</label>
+                <label class="item-title">Time Estimation (days) <span class="redish">- optional</span></label>
                 <input
                     type="number"
                     v-model.number="deliverableToSave.TimeEstimation"
@@ -84,6 +92,7 @@
                     value="Create Deliverable"
                     class="btn"
                 >
+                <button class="btn" @click="$emit('close')">Cancel</button>
             </div>
         </form>
         
@@ -128,38 +137,48 @@ export default {
         },
         checkForm: function (e) {
             //stop default behaviour, ie saving to a file
-            e.preventDefault();
+            e.preventDefault();          
 
             //If all is good
-            if (this.Heading && this.Priority && this.Lead && this.TimeEstimation && this.ProjectsSelectedList.length > 0) {
+            if (   this.deliverableToSave.Heading 
+                && this.deliverableToSave.Priority
+                && this.deliverableToSave.ProjectIdList.length > 0) {
                 this.errors = [];
 
+                //If no time estimation was set, we put -1
+                if(this.deliverableToSave.Lead.length === 0){
+                    this.deliverableToSave.Lead = null;
+                }
+                alert("All GOOD");
                 this.saveDeliverable();
                 return true;
             }
 
             this.errors = [];
 
-            if (!this.Heading) {
+            if (!this.deliverableToSave.Heading) {
                 this.errors.push('Heading required.');
             }
-            if (!this.Priority) {
+            if (!this.deliverableToSave.Priority) {
                 this.errors.push('Priority required.');
             }
-            if (this.ProjectsSelectedList.length === 0) {
-                this.errors.push('Select Project(s).');
-            }            
+            if (this.deliverableToSave.ProjectIdList.length === 0) {
+                this.errors.push('Project(s) required.');
+            }
+            console.log(this.errors);            
         },  
         saveDeliverable(){
-            const ProjectsSelectedIds = [];
+            let ProjectsSelectedIds = [];
 
-            Object.values(this.ProjectsSelectedList).map(value => {
+            Object.values(this.deliverableToSave.ProjectIdList).map(value => {
                 Object.entries(value).forEach(item => {
                     if(item[0] === 'projectId'){
                         ProjectsSelectedIds.push(item[1]);
                     }
                 })
             })
+
+            this.deliverableToSave.ProjectIdList = ProjectsSelectedIds;
 
             //send up to parent for save
             this.$emit('save-deliverable',this.deliverableToSave);
@@ -273,5 +292,8 @@ export default {
     }
     #three {
         margin-right: 5px;
+    }
+    .redish{
+        color: #bb3838;
     }
 </style>

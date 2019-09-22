@@ -42,15 +42,15 @@ export default {
   }
 
   .isRed{
-      background: #dd3f3f;
+    background: #dd3f3f;
   }  
   .isRed:hover{
     background: #df5c5c;
   }
   .isYellow{
-      background: #dfdf2a;
+    background: #dfdf2a;
   }  
   .isGreen{
-      background: #32bb32;
+    background: #32bb32;
   }
 </style>
