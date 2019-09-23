@@ -8,7 +8,7 @@
     
     <deliverable-edit-modal
         v-if="showDeliverableEditModal"
-        @close="showDeliverableEditModal = false"
+        @close="toggleDeliverableEditModal"
         @save-deliverable="sendDeliverableToParent"
         :currentDeliverable=null
         :projectsList="projectsList"
@@ -18,8 +18,6 @@
 </template>
 
 <script>
-import EmployeeApi from '../EmployeeApiFacade'; 
-import DeliverableEditComponent from '../components/DeliverableEditComponent';
 import DeliverableEditModal from "../components/DeliverableEditModal";
 
 export default {
@@ -36,11 +34,12 @@ export default {
 
     methods: {
         toggleDeliverableEditModal(){
-            this.showDeliverableEditModal = true;
+            this.showDeliverableEditModal = !this.showDeliverableEditModal;
         },
         sendDeliverableToParent(deliverableToAdd){
             //send up to parent for save
             this.$emit('save-deliverable',deliverableToAdd);
+            this.toggleDeliverableEditModal();
         }
     }, //methods
 }

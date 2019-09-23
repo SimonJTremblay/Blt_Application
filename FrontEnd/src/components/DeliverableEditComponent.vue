@@ -135,6 +135,9 @@ export default {
         getCurrentLeader(){
             this.deliverableToSave.Lead = this.EmployeesList.filter(value => value.employeeId == this.deliverableToSave.Lead)
         },
+        getProjectsObject(){
+            this.deliverableToSave.ProjectIdList = this.projectsList.filter(value => value.projectId == this.deliverableToSave)
+        },
         checkForm: function (e) {
             //stop default behaviour, ie saving to a file
             e.preventDefault();          
@@ -193,6 +196,9 @@ export default {
                     TimeEstimation: this.currentDeliverable.timeEstimation,
                     ProjectIdList: this.currentDeliverable.projectIdList
                 }
+                console.log("New: " + this.deliverableToSave.ProjectIdList);
+                console.log("Previous: " + this.currentDeliverable.projectIdList);
+                this.getProjectsObject();
             }
             else{
                 this.deliverableToSave = {
@@ -211,6 +217,7 @@ export default {
     }, //methods
 
     async created() {
+        console.log(this.currentDeliverable);
         this.getAllEmployees();
         this.initializeDeliverable();
     }//created

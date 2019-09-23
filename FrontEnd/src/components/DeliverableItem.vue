@@ -32,7 +32,7 @@
 
         <deliverable-edit-modal
             v-if="showDeliverableEditModal"
-            @close="showDeliverableEditModal = false"
+            @close="toggleDeliverableEditModal"
             @save-deliverable="sendDeliverableToParent"
             :currentDeliverable="deliverable"
             :projectsList="projectsList"
@@ -86,7 +86,7 @@ export default {
             this.showDeleteConfirmation = true;
         },
         toggleDeliverableEditModal(){
-            this.showDeliverableEditModal = true;
+            this.showDeliverableEditModal = !this.showDeliverableEditModal;
         },
         updateStatusColorAndCloseModal(bluf){
             this.DeliverableStatusColor = bluf;
@@ -96,9 +96,9 @@ export default {
             this.$emit('deleteDeliverable', deliverable.deliverableId);
             this.showDeleteConfirmation = false;
         },
-        sendDeliverableToParent(deliverable){
-            this.$emit('saveDeliverable', deliverable);            
-            this.showDeliverableEditModal = false;
+        sendDeliverableToParent(deliverableToUpdate){
+            this.$emit('save-deliverable', deliverableToUpdate);            
+            this.toggleDeliverableEditModal();
 
         }
     }    

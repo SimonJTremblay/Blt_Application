@@ -66,8 +66,28 @@ namespace BltServices
                 WHERE
 	                p.ProjectId = @id";
 
-            IEnumerable<Deliverable> result = db.Query<Deliverable>(query, new { id = projectId });
-            return result;
+            IEnumerable<Deliverable> ListDeliverables = db.Query<Deliverable>(query, new { id = projectId });
+
+            //Populating List<int> ProjectIdList of each deliverables
+            foreach (var item in ListDeliverables)
+            {
+                string sqlQuery =
+                @"SELECT
+	                p.ProjectId
+                FROM
+		                Deliverable d 
+	                JOIN 
+		                ProjectDeliverable pd 
+			                ON d.DeliverableId = pd.DeliverableId 
+	                JOIN
+		                Project p
+			                ON  p.ProjectId = pd.ProjectId
+                WHERE
+	                d.DeliverableId = @id";
+
+                item.ProjectIdList = db.Query<int>(sqlQuery, new { id = item.DeliverableId }).ToList();
+            }
+            return ListDeliverables;
         }
     }
 }
