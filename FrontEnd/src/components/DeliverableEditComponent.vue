@@ -83,7 +83,6 @@
                     track-by="projectId"
                     placeholder="Select Project(s)"
                 />
-                {{deliverableToSave.ProjectIdList}}
             </div>
             
             <div class="item submit">
@@ -136,7 +135,13 @@ export default {
             this.deliverableToSave.Lead = this.EmployeesList.filter(value => value.employeeId == this.deliverableToSave.Lead)
         },
         getProjectsObject(){
-            this.deliverableToSave.ProjectIdList = this.projectsList.filter(value => value.projectId == this.deliverableToSave)
+            let tempArray = [];
+
+            for(let project of this.currentDeliverable.projectIdList){
+               tempArray.push(this.projectsList.filter(value => value.projectId === project));
+            }
+
+            return tempArray;
         },
         checkForm: function (e) {
             //stop default behaviour, ie saving to a file
@@ -194,11 +199,12 @@ export default {
                     Lead: this.currentDeliverable.lead,
                     DateScheduledStart: this.currentDeliverable.dateScheduledStart,
                     TimeEstimation: this.currentDeliverable.timeEstimation,
-                    ProjectIdList: this.currentDeliverable.projectIdList
+                    ProjectIdList : []
+                    
                 }
                 console.log("New: " + this.deliverableToSave.ProjectIdList);
                 console.log("Previous: " + this.currentDeliverable.projectIdList);
-                this.getProjectsObject();
+                this.deliverableToSave.ProjectIdList = this.getProjectsObject();
             }
             else{
                 this.deliverableToSave = {
