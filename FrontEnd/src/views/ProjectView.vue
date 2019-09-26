@@ -142,16 +142,11 @@ export default {
       }
     },
     async addDeliverable(newDeliverable){
-      console.log(`${newDeliverable} has ben added`);
-      console.log(`Final deliverable before adding on projectView level:`)
-            Object.entries(newDeliverable).forEach(element => {
-                console.log(element);
-            });
-      // await DeliverableApi.create(newDeliverable);
+      await DeliverableApi.create(newDeliverable);
 
-      // if(!this.isProjectNull()){
-      //   this.getDeliverablesFromProject(this.currentProject.projectId);
-      // }
+      if(!this.isProjectNull()){
+        this.getDeliverablesFromProject(this.currentProject.projectId);
+      }
     },
     async deleteDeliverable(deliverableToDelete){
       await DeliverableApi.delete(deliverableToDelete);
@@ -162,9 +157,10 @@ export default {
       
     },
     async updateDeliverable(deliverableToUpdate){
-      alert(`${deliverableToUpdate} has ben updated`);
-
-      console.log(deliverableToUpdate);
+      alert(`${deliverableToUpdate} has ben updated all the way to parent`);
+       Object.entries(deliverableToUpdate).forEach(element => {
+                console.log(element);
+            });
     }
   } //methods
 }

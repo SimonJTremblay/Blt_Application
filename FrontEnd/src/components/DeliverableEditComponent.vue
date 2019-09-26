@@ -3,7 +3,7 @@
     Component needs to receive:
         projectsList',
         'currentDeliverable'
-    Will emit save-template with deliverableToSave attached
+    Will emit "save-template" with deliverableToSave attached
 -->
 <div>
     <section class="form-container">
@@ -135,13 +135,23 @@ export default {
             this.deliverableToSave.Lead = this.EmployeesList.filter(value => value.employeeId == this.deliverableToSave.Lead)
         },
         getProjectsObject(){
+            var element, project;
             let tempArray = [];
 
-            for(let project of this.currentDeliverable.projectIdList){
-               tempArray.push(this.projectsList.filter(value => value.projectId === project));
+            // Loop over given deliverable to find list of projectIds and extract the project object associated with that Id from the ProjectList
+            for(project of this.currentDeliverable.projectIdList){
+                for(element of this.projectsList){
+                    if(element.projectId === project){
+                        let el = element;
+                        tempArray.push(el);
+                    }
+                }
             }
 
-            return tempArray;
+            // Empty the temporary array of project objects
+            while(tempArray.length > 0){
+                this.deliverableToSave.ProjectIdList.push(tempArray.shift());
+            }
         },
         checkForm: function (e) {
             //stop default behaviour, ie saving to a file
@@ -153,11 +163,11 @@ export default {
                 && this.deliverableToSave.ProjectIdList.length > 0) {
                 this.errors = [];
 
-                //If no time estimation was set, we put -1
+                //If no time estimation was set, we put null
                 if(this.deliverableToSave.Lead.length === 0){
                     this.deliverableToSave.Lead = null;
                 }
-                alert("All GOOD");
+
                 this.saveDeliverable();
                 return true;
             }
@@ -172,12 +182,12 @@ export default {
             }
             if (this.deliverableToSave.ProjectIdList.length === 0) {
                 this.errors.push('Project(s) required.');
-            }
-            console.log(this.errors);            
+            }           
         },  
         saveDeliverable(){
             let ProjectsSelectedIds = [];
 
+            // returning only the id from the select Projects
             Object.values(this.deliverableToSave.ProjectIdList).map(value => {
                 Object.entries(value).forEach(item => {
                     if(item[0] === 'projectId'){
@@ -185,11 +195,17 @@ export default {
                     }
                 })
             })
-
+            
+            
             this.deliverableToSave.ProjectIdList = ProjectsSelectedIds;
 
+            if(this.deliverableToSave.Lead != null){
+                this.deliverableToSave.Lead = this.deliverableToSave.Lead.employeeId;
+            } 
+            
             //send up to parent for save
             this.$emit('save-deliverable',this.deliverableToSave);
+
         },
         initializeDeliverable(){
             if(this.currentDeliverable != null){
@@ -202,9 +218,8 @@ export default {
                     ProjectIdList : []
                     
                 }
-                console.log("New: " + this.deliverableToSave.ProjectIdList);
-                console.log("Previous: " + this.currentDeliverable.projectIdList);
-                this.deliverableToSave.ProjectIdList = this.getProjectsObject();
+
+                this.getProjectsObject();
             }
             else{
                 this.deliverableToSave = {
@@ -223,7 +238,6 @@ export default {
     }, //methods
 
     async created() {
-        console.log(this.currentDeliverable);
         this.getAllEmployees();
         this.initializeDeliverable();
     }//created
