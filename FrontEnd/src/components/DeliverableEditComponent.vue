@@ -210,6 +210,7 @@ export default {
         initializeDeliverable(){
             if(this.currentDeliverable != null){
                 this.deliverableToSave = {
+                    DeliverableId: this.currentDeliverable.deliverableId,
                     Heading : this.currentDeliverable.heading,
                     Priority: this.currentDeliverable.priority,
                     Lead: this.currentDeliverable.lead,

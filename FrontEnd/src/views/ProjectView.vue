@@ -157,10 +157,15 @@ export default {
       
     },
     async updateDeliverable(deliverableToUpdate){
-      alert(`${deliverableToUpdate} has ben updated all the way to parent`);
+      // alert(`${deliverableToUpdate} has ben updated all the way to parent`);
        Object.entries(deliverableToUpdate).forEach(element => {
                 console.log(element);
             });
+      await DeliverableApi.update(deliverableToUpdate.DeliverableId, deliverableToUpdate);
+
+      if(!this.isProjectNull()){
+        this.getDeliverablesFromProject(this.currentProject.projectId);
+      }
     }
   } //methods
 }

@@ -38,6 +38,13 @@ namespace BltApplication.Controllers
         //    return deliverableList;
         //}
 
+        // PUT: api/Deliverable/Id
+        [HttpPut("{deliverableId}")]
+        public void Put(int deliverableId, Deliverable deliverable)
+        {
+            _deliverables.Update(deliverableId, deliverable);
+        }
+
         // POST: api/Deliverable
         [HttpPost]
         public void Post(Deliverable deliverable)

@@ -12,5 +12,6 @@ namespace BltData
         Deliverable GetById(int id);
         void Add(Deliverable deliverable);
         void Delete(int deliverableId);
+        void Update(int id, Deliverable deliverable);
     }
 }

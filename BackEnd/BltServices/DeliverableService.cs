@@ -86,6 +86,32 @@ namespace BltServices
 
             Console.WriteLine(affectedRows);            
         }
+
+        public void Update(int deliverableId, Deliverable deliverable)
+        {
+
+            var sql = @"UPDATE [dbo].[Deliverable]
+                           SET[Heading] = @Heading
+                              ,[Priority] = @Priority
+                              ,[Lead] = @Lead
+                              ,[DateScheduledStart] = @DateScheduledStart
+                              ,[TimeEstimation] = @TimeEstimation
+                         WHERE DeliverableId = @id";
+
+            var isSuccess = db.Execute(sql,
+                new
+                {
+                    Heading = deliverable.Heading,
+                    Priority = deliverable.Priority,
+                    Lead = deliverable.Lead,
+                    DateScheduledStart = deliverable.DateScheduledStart,
+                    TimeEstimation = deliverable.TimeEstimation,
+                    id = deliverableId
+                }
+            );
+
+            //Need to update ProjectsDeliverable after updating Deliverable
+        }
        
 
         public Deliverable GetById(int id)
