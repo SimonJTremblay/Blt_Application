@@ -110,7 +110,18 @@ namespace BltServices
                 }
             );
 
-            //Need to update ProjectsDeliverable after updating Deliverable
+            //Update the ProjectDeliverable Table
+            //Delete current data for DeliverableId
+            sql = @"DELETE FROM [dbo].[ProjectDeliverable]
+                          WHERE DeliverableId = @devlId";
+            var numRows = db.Execute(sql,new { @devlId = deliverableId });
+
+            //Insert new data
+            foreach (var item in deliverable.ProjectIdList)
+            {
+                var processQuery = "INSERT INTO ProjectDeliverable VALUES (@ProjectId, @DeliverableId)";
+                db.Execute(processQuery, new { @DeliverableId = deliverableId, @ProjectId = item });
+            }
         }
        
 
