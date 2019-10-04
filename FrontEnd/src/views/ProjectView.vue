@@ -170,7 +170,7 @@ export default {
       if(!this.isProjectNull()){
         this.getDeliverablesFromProject(this.currentProject.projectId);
       }
-    }
+    },
   } //methods
 }
 

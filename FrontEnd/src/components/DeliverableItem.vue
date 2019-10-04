@@ -12,12 +12,17 @@
         </li>    
 
         <!-- use the modal component, pass in the prop -->
-        <bluf-modal v-if="showBlufModal" @close="showBlufModal = false" @saved="updateStatusColorAndCloseModal" >
+        <bluf-modal 
+            v-if="showBlufModal" 
+            @close="showBlufModal = false"
+            @saved="updateStatusColorAndCloseModal"
+            :deliverable='deliverable' 
+        >
         <!--
             you can use custom content here to overwrite
             default content
         -->
-            <h3 slot="header">{{deliverable.heading}}</h3>
+            <h3 slot="header">(not part of modal) {{deliverable.heading}}</h3>
             <div slot="body"> </div>
 
         </bluf-modal>
@@ -99,9 +104,19 @@ export default {
         sendDeliverableToParent(deliverableToUpdate){
             this.$emit('save-deliverable', deliverableToUpdate);            
             this.toggleDeliverableEditModal();
+        },
+        getBlufStatus(){     // Set arbitrary values to test functionality
+            this.deliverable.Schedule = 1;
+            this.deliverable.Budget = 2;
+            this.deliverable.Scope = 1;
+            this.deliverable.Issues = 3;
+            this.deliverable.OtherRisks = 2;
+        },
+    },  //methods  
 
-        }
-    }    
+    async created(){
+        this.getBlufStatus();
+    }
 }
 </script>
 

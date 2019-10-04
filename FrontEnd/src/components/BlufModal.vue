@@ -79,84 +79,94 @@
 <script>
 import RadioButtons from '../components/RadioButtons'
 export default {
-    components:{
-        'radio-button' : RadioButtons
-    },
-    data(){
-        return{
-            Schedule:1,
-            Budget:2,
-            Scope:1,
-            OtherRisks:1,
-            Issues:1,
-            currentBluf:null
-        }
-    },
-    computed:{
-      StatusColor: function(){
-        return this.getStatusColor()
-        
+  components:{
+      'radio-button' : RadioButtons
+  },
+  props:['deliverable'],
+  data(){
+      return{
+          Schedule:0,
+          Budget:0,
+          Scope:0,
+          OtherRisks:0,
+          Issues:0,
+          currentBluf:null
       }
-    },
-    methods:{
-        changeValueSchedule: function(newValue){
-            this.Schedule = newValue;
-        },
-        changeValueBudget: function(newValue){
-            this.Budget = newValue;
-        },
-        changeValueScope: function(newValue){
-            this.Scope = newValue;
-        },
-        changeValueIssues: function(newValue){
-            this.Issues = newValue;
-        },
-        changeValueOtherRisks: function(newValue){
-            this.OtherRisks = newValue;
-        },
-        saveBluf(){
-            // const bluf = {
-            //     Schedule: this.Schedule,
-            //     Budget: this.Budget,
-            //     Scope: this.Scope,
-            //     OtherRisks: this.OtherRisks,
-            //     Issues: this.Issues,
-            // }
-            //will need an API and call this API to update the bluf in the db
-            //the emit sends a message to parent indicating the statusColor the deliverable tab should have
-            this.$emit('saved', this.StatusColor);
-        },
-        getStatusColor(){
-          this.currentBluf = {
-                Schedule: this.Schedule,
-                Budget: this.Budget,
-                Scope: this.Scope,
-                OtherRisks: this.OtherRisks,
-                Issues: this.Issues,
-            }
-          let atRisk = [];
-          let Problem = [];
-
-          Object.values(this.currentBluf).forEach(item =>{
-            if (item == 2){
-              atRisk.push(item);
-            }
-            else if (item == 3){
-              Problem.push(item);
-            }
-          });
-
-          if (Problem.length > 0){
-            return 'isRed';
-          }
-          else if (atRisk.length > 0){
-            return 'isYellow';            
-          }
-          else{
-            return 'isGreen';            
-          }
-        }
+  },
+  computed:{
+    StatusColor: function(){
+      return this.getStatusColor()      
     }
+  },
+  methods:{
+      changeValueSchedule: function(newValue){
+          this.Schedule = newValue;
+      },
+      changeValueBudget: function(newValue){
+          this.Budget = newValue;
+      },
+      changeValueScope: function(newValue){
+          this.Scope = newValue;
+      },
+      changeValueIssues: function(newValue){
+          this.Issues = newValue;
+      },
+      changeValueOtherRisks: function(newValue){
+          this.OtherRisks = newValue;
+      },
+      saveBluf(){
+          // const bluf = {
+          //     Schedule: this.Schedule,
+          //     Budget: this.Budget,
+          //     Scope: this.Scope,
+          //     OtherRisks: this.OtherRisks,
+          //     Issues: this.Issues,
+          // }
+          //will need an API and call this API to update the bluf in the db
+          //the emit sends a message to parent indicating the statusColor the deliverable tab should have
+          this.$emit('saved', this.StatusColor);
+      },
+      getStatusColor(){
+        this.currentBluf = {
+              Schedule: this.Schedule,
+              Budget: this.Budget,
+              Scope: this.Scope,
+              OtherRisks: this.OtherRisks,
+              Issues: this.Issues,
+          }
+        let atRisk = [];
+        let Problem = [];
+
+        Object.values(this.currentBluf).forEach(item =>{
+          if (item == 2){
+            atRisk.push(item);
+          }
+          else if (item == 3){
+            Problem.push(item);
+          }
+        });
+
+        if (Problem.length > 0){
+          return 'isRed';
+        }
+        else if (atRisk.length > 0){
+          return 'isYellow';            
+        }
+        else{
+          return 'isGreen';            
+        }
+      },
+      assignBluf(){
+        this.Schedule = this.deliverable.Schedule;
+        this.Budget = this.deliverable.Budget;
+        this.Scope = this.deliverable.Scope;
+        this.OtherRisks = this.deliverable.OtherRisks;
+        this.Issues = this.deliverable.Issues;
+      }
+  },  //methods
+  async created(){
+        this.assignBluf();
+      },
 }
 </script>
 
