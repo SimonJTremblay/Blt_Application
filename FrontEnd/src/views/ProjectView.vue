@@ -142,6 +142,10 @@ export default {
       }
     },
     async addDeliverable(newDeliverable){
+
+      Object.entries(newDeliverable).forEach(element => {
+                console.log(element);
+            });
       await DeliverableApi.create(newDeliverable);
 
       if(!this.isProjectNull()){

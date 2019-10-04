@@ -57,7 +57,7 @@
 
             <div>
                 <label for="timeScheduledStart">Scheduled Start <span class="redish">- optional</span></label>
-                <input name="timeScheduledStart" type="date">
+                <input name="timeScheduledStart" v-model="deliverableToSave.DateScheduledStart" type="date">
             </div>
 
             <div class="item time-estimation">
@@ -203,6 +203,7 @@ export default {
                 this.deliverableToSave.Lead = this.deliverableToSave.Lead.employeeId;
             } 
             
+                console.log(this.deliverableToSave.timeScheduledStart);
             //send up to parent for save
             this.$emit('save-deliverable',this.deliverableToSave);
 
@@ -220,6 +221,12 @@ export default {
                     
                 }
 
+                console.log(this.deliverableToSave.DateScheduledStart);
+                if(this.deliverableToSave.DateScheduledStart){
+                    this.deliverableToSave.DateScheduledStart = this.formatDate(this.deliverableToSave.DateScheduledStart);
+                }
+                console.log(this.deliverableToSave.DateScheduledStart);
+
                 this.getProjectsObject();
             }
             else{
@@ -236,6 +243,9 @@ export default {
         changeValuePriority: function(newValue){
             this.deliverableToSave.Priority = newValue;
         },
+        formatDate(date){
+            return date.substr(0,10);       //Substring to get only date portion of parameter
+        }
     }, //methods
 
     async created() {
