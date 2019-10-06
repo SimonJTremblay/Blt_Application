@@ -53,4 +53,7 @@ export default {
   .isGreen{
     background: #32bb32;
   }
+  .isGrey{
+    background: #948b8b;
+  }
 </style>

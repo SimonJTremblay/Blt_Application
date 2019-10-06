@@ -75,8 +75,7 @@ export default {
       deliverableList:[],
       projectsList:[],
       errored: false,
-      parentPage: 'Dashboard'
-      
+      parentPage: 'Dashboard'      
     }//return
   },//data
 
@@ -90,6 +89,7 @@ export default {
   },//created
 
   methods: {
+    
     isProjectNull(project){
       return project === null;
     },
@@ -135,7 +135,8 @@ export default {
       this.loading = true
 
       try {
-        this.deliverableList = await ProjectApi.GetDeliverablesFromProject(projectId);
+        //this.deliverableList = await ProjectApi.GetDeliverablesFromProject(projectId);
+        this.deliverableList = await ProjectApi.GetDeliverablesAndBlufFromProject(projectId);
       } 
       finally {
         this.loading = false

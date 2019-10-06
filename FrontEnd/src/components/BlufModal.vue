@@ -157,11 +157,20 @@ export default {
         }
       },
       assignBluf(){
-        this.Schedule = this.deliverable.Schedule;
-        this.Budget = this.deliverable.Budget;
-        this.Scope = this.deliverable.Scope;
-        this.OtherRisks = this.deliverable.OtherRisks;
-        this.Issues = this.deliverable.Issues;
+        if(this.deliverable.bluf){
+          this.Schedule = this.deliverable.bluf.schedule;
+          this.Budget = this.deliverable.bluf.budget;
+          this.Scope = this.deliverable.bluf.scope;
+          this.OtherRisks = this.deliverable.bluf.otherRisks;
+          this.Issues = this.deliverable.bluf.issues;
+        }
+        else{
+          this.Schedule = 0;
+          this.Budget = 0;
+          this.Scope = 0;
+          this.OtherRisks = 0;
+          this.Issues = 0;
+        }
       }
   },  //methods
   async created(){

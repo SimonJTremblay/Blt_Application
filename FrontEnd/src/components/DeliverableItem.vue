@@ -9,7 +9,8 @@
             <button class="item btn" @click="toggleDeliverableEditModal" >Edit</button>
             <button class="item btn" @click="redirectToDeliverableView">Tasks</button>
             <button class="item btn isRed" @click="toggleShowDeleteConfirmation">Delete</button>
-        </li>    
+            <button @click="show">show</button>
+        </li>
 
         <!-- use the modal component, pass in the prop -->
         <bluf-modal 
@@ -22,7 +23,9 @@
             you can use custom content here to overwrite
             default content
         -->
-            <h3 slot="header">(not part of modal) {{deliverable.heading}}</h3>
+            <h3 v-if="blufDoesNotExist" slot="header">No BLUF Report Found.</h3>
+            <h3 v-else slot="header">{{deliverable.heading}}</h3>
+
             <div slot="body"> </div>
 
         </bluf-modal>
@@ -63,12 +66,20 @@ export default {
             showBlufModal:false,
             showDeleteConfirmation:false,
             showDeliverableEditModal: false,
-            DeliverableStatusColor: null
+            DeliverableStatusColor: null,
+            blufDoesNotExist: false,
         }
     },
     computed:{
-        StatusColor: function(){
-            return this.DeliverableStatusColor;    
+        StatusColor: {   
+         // getter
+            get: function () {
+                return this.DeliverableStatusColor;
+            },
+            // setter
+            set: function(newValue) {
+                this.DeliverableStatusColor = this.getStatusColor();
+            }
         }
     },
     methods: {
@@ -84,6 +95,11 @@ export default {
                 }
             )
         },
+        show(){
+             Object.entries(this.deliverable.bluf).forEach(item => {
+      console.log(item);
+    });
+        },
         toggleShowBlufModal(){
             this.showBlufModal = true;
         },
@@ -94,7 +110,7 @@ export default {
             this.showDeliverableEditModal = !this.showDeliverableEditModal;
         },
         updateStatusColorAndCloseModal(bluf){
-            this.DeliverableStatusColor = bluf;
+            this.DeliverableStatusColor = String(bluf);
             this.showBlufModal = false;
         },
         emitMessageAndClose(deliverable){
@@ -105,12 +121,46 @@ export default {
             this.$emit('save-deliverable', deliverableToUpdate);            
             this.toggleDeliverableEditModal();
         },
-        getBlufStatus(){     // Set arbitrary values to test functionality
-            this.deliverable.Schedule = 1;
-            this.deliverable.Budget = 2;
-            this.deliverable.Scope = 1;
-            this.deliverable.Issues = 3;
-            this.deliverable.OtherRisks = 2;
+        getBlufStatus(){
+
+            //Assign Deliverable Color
+            this.DeliverableStatusColor = this.getStatusColor();
+        },
+        getStatusColor(){
+            if(this.deliverable.bluf == null){
+                if(!this.deliverable.bluf){
+                    this.blufDoesNotExist = true;
+                }
+                return 'isGrey';
+            }
+            this.currentBluf = {
+               Schedule : this.deliverable.bluf.schedule,
+               Budget : this.deliverable.bluf.budget,
+               Scope : this.deliverable.bluf.scope,
+               OtherRisks : this.deliverable.bluf.otherRisks,
+               Issues : this.deliverable.bluf.issue
+            }
+            let atRisk = [];
+            let Problem = [];
+
+            Object.values(this.currentBluf).forEach(item =>{
+                if (item == 2){
+                    atRisk.push(item);
+                }
+                else if (item == 3){
+                    Problem.push(item);
+                }
+            });
+
+            if (Problem.length > 0){
+                return 'isRed';
+            }
+            else if (atRisk.length > 0){
+                return 'isYellow';            
+            }
+            else{
+                return 'isGreen';            
+            }
         },
     },  //methods  
 

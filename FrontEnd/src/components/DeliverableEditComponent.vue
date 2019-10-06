@@ -203,7 +203,6 @@ export default {
                 this.deliverableToSave.Lead = this.deliverableToSave.Lead.employeeId;
             } 
             
-                console.log(this.deliverableToSave.timeScheduledStart);
             //send up to parent for save
             this.$emit('save-deliverable',this.deliverableToSave);
 
@@ -221,11 +220,9 @@ export default {
                     
                 }
 
-                console.log(this.deliverableToSave.DateScheduledStart);
                 if(this.deliverableToSave.DateScheduledStart){
                     this.deliverableToSave.DateScheduledStart = this.formatDate(this.deliverableToSave.DateScheduledStart);
                 }
-                console.log(this.deliverableToSave.DateScheduledStart);
 
                 this.getProjectsObject();
             }
