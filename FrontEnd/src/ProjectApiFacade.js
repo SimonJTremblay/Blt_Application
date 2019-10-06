@@ -25,6 +25,9 @@ export default {
   GetDeliverablesFromProject(id){
     return this.execute('GET',`/GetDeliverablesFromProject/${id}`)
   },
+  GetDeliverablesAndBlufFromProject(id){
+    return this.execute('GET',`/GetDeliverablesAndBlufFromProject/${id}`)    
+  },
   create(data) {
     return this.execute('POST', '/', data)
   },
