@@ -64,6 +64,20 @@ namespace BltApplication.Controllers
             return deliverableList;
         }
 
+        // GET api/Project/GetDeliverablesAndBlufFromProject/id
+        [HttpGet("GetDeliverablesAndBlufFromProject/{projectId}")]
+        public ActionResult<IEnumerable<Deliverable>> GetDeliverablesAndBlufFromProject(int projectId)
+        {
+            var deliverableList = _projects.GetDeliverablesAndBlufFromProject(projectId).ToList();
+
+            if (deliverableList == null)
+            {
+                return NotFound();
+            }
+
+            return deliverableList;
+        }
+
         //// GET: api/Project
         //[HttpGet]
         //public async Task<ActionResult<IEnumerable<Project>>> Get()

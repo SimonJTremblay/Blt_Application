@@ -52,6 +52,7 @@ namespace BltServices
 
         public IEnumerable<Deliverable> GetDeliverablesFromProject(int projectId)
         {
+            //Get all the deliverables from a given project
             const string query =
                 @"SELECT
 	                d.*
@@ -69,6 +70,7 @@ namespace BltServices
             IEnumerable<Deliverable> ListDeliverables = db.Query<Deliverable>(query, new { id = projectId });
 
             //Populating List<int> ProjectIdList of each deliverables
+            // aka all the projects the deliverable belongs to
             foreach (var item in ListDeliverables)
             {
                 string sqlQuery =
@@ -87,6 +89,23 @@ namespace BltServices
 
                 item.ProjectIdList = db.Query<int>(sqlQuery, new { id = item.DeliverableId }).ToList();
             }
+            return ListDeliverables;
+        }
+
+        public IEnumerable<Deliverable> GetDeliverablesAndBlufFromProject(int projectId)
+        {
+            //Call method to return Deliverable + ProjectList
+            IEnumerable<Deliverable> ListDeliverables = GetDeliverablesFromProject(projectId);
+
+            var sql = @"SELECT  * FROM DeliverableBluf db WHERE DeliverableId = @id";
+
+            //Add bluf to each Deliverables
+            foreach ( var item in ListDeliverables )
+            {
+                Bluf bluf = db.Query<Bluf>(sql, new { id = item.DeliverableId }).SingleOrDefault();
+                item.Bluf = bluf;
+            }
+
             return ListDeliverables;
         }
     }

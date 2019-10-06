@@ -13,6 +13,7 @@ namespace BltData
         void Add(Project project);
         void Delete(Project project);
         IEnumerable<Deliverable> GetDeliverablesFromProject(int projectId);
+        IEnumerable<Deliverable> GetDeliverablesAndBlufFromProject(int projectId);
 
     }
 }

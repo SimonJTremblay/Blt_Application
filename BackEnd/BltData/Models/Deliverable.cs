@@ -15,5 +15,7 @@ namespace BltData.Models
         public int? TimeEstimation { get; set; }
         public virtual List<int> ProjectIdList { get; set; }
         public virtual IEnumerable<Task> TaskList { get; set; }
+        public virtual Bluf Bluf { get; set; }
+
     }
 }
