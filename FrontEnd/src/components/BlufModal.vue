@@ -59,14 +59,13 @@
           </div>
 
           <div class="modal-footer">
-            <slot name="footer">
+            <slot name="footer" />
               <button class="modal-default-button" @click="$emit('close')">
                 Cancel
               </button>
               <button class="modal-default-button" @click="saveBluf">
                 Save
               </button>
-            </slot>
           </div>
 
         </div>

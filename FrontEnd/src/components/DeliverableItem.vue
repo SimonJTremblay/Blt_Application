@@ -24,7 +24,10 @@
             default content
         -->
             <h3 v-if="blufDoesNotExist" slot="header">No BLUF Report Found.</h3>
-            <h3 v-else slot="header">{{deliverable.heading}}</h3>
+            <template v-else>
+                <h3 slot="header">{{deliverable.heading}}</h3>
+                <h6 slot="footer">Last Modified Date: {{lastModifiedDate}}</h6>
+            </template>
 
             <div slot="body"> </div>
 
@@ -68,6 +71,7 @@ export default {
             showDeliverableEditModal: false,
             DeliverableStatusColor: null,
             blufDoesNotExist: false,
+            lastModifiedDate: null,
         }
     },
     computed:{
@@ -121,18 +125,22 @@ export default {
             this.$emit('save-deliverable', deliverableToUpdate);            
             this.toggleDeliverableEditModal();
         },
+        formatDate(date){
+            return date.substr(0,10);       //Substring to get only date portion of parameter
+        },
         getBlufStatus(){
 
             //Assign Deliverable Color
             this.DeliverableStatusColor = this.getStatusColor();
         },
         getStatusColor(){
-            if(this.deliverable.bluf == null){
-                if(!this.deliverable.bluf){
-                    this.blufDoesNotExist = true;
-                }
+            if(!this.deliverable.bluf){
+                this.blufDoesNotExist = true;
                 return 'isGrey';
             }
+
+            this.lastModifiedDate = this.formatDate(this.deliverable.bluf.date);
+
             this.currentBluf = {
                Schedule : this.deliverable.bluf.schedule,
                Budget : this.deliverable.bluf.budget,
