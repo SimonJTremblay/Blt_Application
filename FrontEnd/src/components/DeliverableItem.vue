@@ -1,10 +1,10 @@
 <template>
     <div>
         <li :class="StatusColor">
-            <div class="item">{{deliverable.deliverableId}}</div>|
-            <div class="item">{{deliverable.heading}}</div>|
-            <div class="item">Estimated {{deliverable.timeEstimation}} days</div>|
-            <div class="item">Lead: {{deliverable.lead}}</div>
+            <div class="item">{{currentDeliverable.deliverableId}}</div>|
+            <div class="item">{{currentDeliverable.heading}}</div>|
+            <div class="item">Estimated {{currentDeliverable.timeEstimation}} days</div>|
+            <div class="item">Lead: {{currentDeliverable.lead}}</div>
             <button class="item btn push" @click="toggleShowBlufModal">Bluf</button>
             <button class="item btn" @click="toggleDeliverableEditModal" >Edit</button>
             <button class="item btn" @click="redirectToDeliverableView">Tasks</button>
@@ -17,7 +17,7 @@
             v-if="showBlufModal" 
             @close="showBlufModal = false"
             @saved="updateStatusColorAndCloseModal"
-            :deliverable='deliverable' 
+            :deliverable='currentDeliverable' 
         >
         <!--
             you can use custom content here to overwrite
@@ -25,7 +25,7 @@
         -->
             <h3 v-if="blufDoesNotExist" slot="header">No BLUF Report Found.</h3>
             <template v-else>
-                <h3 slot="header">{{deliverable.heading}}</h3>
+                <h3 slot="header">{{currentDeliverable.heading}}</h3>
                 <h6 slot="footer">Last Modified Date: {{lastModifiedDate}}</h6>
             </template>
 
@@ -33,7 +33,7 @@
 
         </bluf-modal>
 
-        <delete-confirmation-modal v-if="showDeleteConfirmation" @no="showDeleteConfirmation = false" @yes="emitMessageAndClose(deliverable)">
+        <delete-confirmation-modal v-if="showDeleteConfirmation" @no="showDeleteConfirmation = false" @yes="emitMessageAndClose(currentDeliverable)">
             <h3 slot="header">Warning!</h3>
             <p slot="body">
                 You are about to <u>permanently</u> delete this Deliverable, along with <b>ALL</b> its tasks. Are you sure you want to proceed?
@@ -45,7 +45,7 @@
             v-if="showDeliverableEditModal"
             @close="toggleDeliverableEditModal"
             @save-deliverable="sendDeliverableToParent"
-            :currentDeliverable="deliverable"
+            :currentDeliverable="currentDeliverable"
             :projectsList="projectsList"
         />
     </div>
@@ -58,7 +58,11 @@ import DeliverableEditModal from "../components/DeliverableEditModal";
 
 export default {
     name:'deliverable-item',
-    props: ['deliverable','deliverableList','Status','projectsList'],
+    props: {
+        deliverable: Object,
+        deliverableList: Array,
+        projectsList: Array
+    },
     components:{
         'bluf-modal' : BlufModal,
         'delete-confirmation-modal' : DeleteConfirmationModal,
@@ -72,19 +76,24 @@ export default {
             DeliverableStatusColor: null,
             blufDoesNotExist: false,
             lastModifiedDate: null,
+            currentDeliverable: this.deliverable    // Local data property to mutate the current deliverable
         }
     },
     computed:{
-        StatusColor: {   
-         // getter
-            get: function () {
-                return this.DeliverableStatusColor;
-            },
-            // setter
-            set: function(newValue) {
-                this.DeliverableStatusColor = this.getStatusColor();
-            }
-        }
+        StatusColor: function (){
+            return this.DeliverableStatusColor;  
+        //  // getter
+        //     get: function () {
+        //         return this.DeliverableStatusColor;
+        //     },
+        //     // setter
+        //     set: function(newValue) {
+        //         this.DeliverableStatusColor = this.getStatusColor();
+        //     }
+        },
+    },
+    async created(){
+        this.getBlufStatus();
     },
     methods: {
         redirectToDeliverableView(){
@@ -93,16 +102,17 @@ export default {
                     name: 'DeliverableView',
                     params: 
                         { 
-                            deliverable: this.deliverable,
+                            deliverable: this.currentDeliverable,
                             deliverableList:this.deliverableList
                         }
                 }
             )
         },
         show(){
-             Object.entries(this.deliverable.bluf).forEach(item => {
-      console.log(item);
-    });
+            Object.entries(this.currentDeliverable.bluf).forEach(item => {
+                console.log(item);
+            });
+ 
         },
         toggleShowBlufModal(){
             this.showBlufModal = true;
@@ -134,19 +144,19 @@ export default {
             this.DeliverableStatusColor = this.getStatusColor();
         },
         getStatusColor(){
-            if(!this.deliverable.bluf){
+            if(!this.currentDeliverable.bluf){
                 this.blufDoesNotExist = true;
                 return 'isGrey';
             }
 
-            this.lastModifiedDate = this.formatDate(this.deliverable.bluf.date);
+            this.lastModifiedDate = this.formatDate(this.currentDeliverable.bluf.date);
 
             this.currentBluf = {
-               Schedule : this.deliverable.bluf.schedule,
-               Budget : this.deliverable.bluf.budget,
-               Scope : this.deliverable.bluf.scope,
-               OtherRisks : this.deliverable.bluf.otherRisks,
-               Issues : this.deliverable.bluf.issue
+               Schedule : this.currentDeliverable.bluf.schedule,
+               Budget : this.currentDeliverable.bluf.budget,
+               Scope : this.currentDeliverable.bluf.scope,
+               OtherRisks : this.currentDeliverable.bluf.otherRisks,
+               Issues : this.currentDeliverable.bluf.issue
             }
             let atRisk = [];
             let Problem = [];
@@ -171,10 +181,6 @@ export default {
             }
         },
     },  //methods  
-
-    async created(){
-        this.getBlufStatus();
-    }
 }
 </script>
 

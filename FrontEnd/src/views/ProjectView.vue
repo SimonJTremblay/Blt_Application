@@ -94,44 +94,44 @@ export default {
       return project === null;
     },
     async getAllProjects() {
-      this.loading = true
+        this.loading = true
 
-      try {
-        this.projectsList = await ProjectApi.getAll();
-      } 
-      finally {
-        this.loading = false
-      }
+        try {
+          this.projectsList = await ProjectApi.getAll();
+        } 
+        finally {
+          this.loading = false
+        }
     },
     // Project Navigation
     setPreviousProject(){
-      if(this.currentProject === null || this.currentProject === undefined){
-        return;
-      }
+        if(this.currentProject === null || this.currentProject === undefined){
+          return;
+        }
 
-      if(this.currentProject.projectId === 1){
-        return;
-      }
-      else{      
-        this.currentProject = this.projectsList[this.currentProject.projectId - 2];
-      }
-      this.getDeliverablesFromProject(this.currentProject.projectId);      
+        if(this.currentProject.projectId === 1){
+          return;
+        }
+        else{      
+          this.currentProject = this.projectsList[this.currentProject.projectId - 2];
+        }
+        this.getDeliverablesFromProject(this.currentProject.projectId);      
     },
     setNextProject(){
-      if(this.currentProject === null || this.currentProject === undefined){
-        return;
-      }
+        if(this.currentProject === null || this.currentProject === undefined){
+          return;
+        }
 
-      if(this.currentProject.projectId + 1 < this.projectsList.length){
-        this.currentProject = this.projectsList[this.currentProject.projectId];
-      }
-      else{
-        this.currentProject = this.projectsList[this.projectsList.length - 1]; 
-      }
-      this.getDeliverablesFromProject(this.currentProject.projectId);
+        if(this.currentProject.projectId + 1 < this.projectsList.length){
+          this.currentProject = this.projectsList[this.currentProject.projectId];
+        }
+        else{
+          this.currentProject = this.projectsList[this.projectsList.length - 1]; 
+        }
+        this.getDeliverablesFromProject(this.currentProject.projectId);
     },
     async getDeliverablesFromProject(projectId){
-
+      this.deliverableList = [];
       this.loading = true
 
       try {
