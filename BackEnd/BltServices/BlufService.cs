@@ -28,7 +28,39 @@ namespace BltServices
 
         public void UpdateBluf(Bluf bluf)
         {
-            throw new NotImplementedException();
+            //By design, the update functions add a new row to the database, therefore not deleting the previous data.
+
+            DateTime date = DateTime.Now;
+
+            var sql = @"INSERT INTO[dbo].[DeliverableBluf]
+                        ([DeliverableId]
+                          ,[Schedule]
+                          ,[Budget]
+                          ,[Scope]
+                          ,[OtherRisks]
+                          ,[Issues]
+                          ,[Date])
+                       VALUES
+                            @DeliverableId,
+                            @Schedule,
+                            @Budget,
+                            @Scope,
+                            @OtherRisks,
+                            @Issues,
+                            @Date";
+
+            var isSuccess = db.Execute(sql,
+                new
+                {
+                    @DeliverableId = bluf.DeliverableId,
+                    @Schedule = bluf.Schedule ,
+                    @Budget = bluf.Budget,
+                    @Scope = bluf.Scope ,
+                    @OtherRisks = bluf.OtherRisks,
+                    @Issues = bluf.Issues,
+                    @Date = date,
+                }
+            );
         }
     }
 }
