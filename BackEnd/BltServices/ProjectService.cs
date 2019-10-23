@@ -33,9 +33,9 @@ namespace BltServices
             return db.Query<Project>("SELECT * FROM Project");
         }
 
-        public Project GetById(int id)
+        public Project GetById(int projectId)
         {
-            return db.Query<Project>("SELECT * FROM Project WHERE ProjectId=@ID", new { ID = id }).SingleOrDefault();
+            return db.Query<Project>("SELECT * FROM Project WHERE ProjectId=@id", new { id = projectId }).SingleOrDefault();
         }
 
         public void Delete(Project project)
@@ -97,7 +97,15 @@ namespace BltServices
             //Call method to return Deliverable + ProjectList
             IEnumerable<Deliverable> ListDeliverables = GetDeliverablesFromProject(projectId);
 
-            var sql = @"SELECT  * FROM DeliverableBluf db WHERE DeliverableId = @id";
+            string sql =
+                @"SELECT
+	                * 
+                FROM 
+	                DeliverableBluf 
+                WHERE 
+	                    Date = (SELECT MAX(Date) FROM DeliverableBluf WHERE DeliverableId = @id)
+                    AND
+		                DeliverableId = @id";
 
             //Add bluf to each Deliverables
             foreach ( var item in ListDeliverables )

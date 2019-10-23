@@ -26,7 +26,7 @@ namespace BltServices
 
         public Employee GetById(int id)
         {
-            return db.Query<Employee>("SELECT * FROM Employees WHERE EmployeeId=@Id", new { ID = id }).SingleOrDefault();
+            return db.Query<Employee>("SELECT * FROM Employees WHERE EmployeeId=@Id", new { id = id }).SingleOrDefault();
         }
     }
 }

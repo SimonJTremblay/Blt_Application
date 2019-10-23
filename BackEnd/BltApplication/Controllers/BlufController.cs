@@ -24,7 +24,7 @@ namespace BltApplication.Controllers
         public void Post(Bluf bluf)
         {
             // NB. it's a post because we don't overide the data, we simply add another line
-            _blufs.UpdateBluf(bluf);
+            _blufs.PostBluf(bluf);
         }
 
         //GET api/Bluf/GetById/id

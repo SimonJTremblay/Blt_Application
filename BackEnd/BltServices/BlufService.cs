@@ -23,30 +23,38 @@ namespace BltServices
 
         public Bluf GetById(int id)
         {
-            return db.Query<Bluf>("SELECT * FROM Blufs WHERE BlufId=@Id", new { Id = id }).SingleOrDefault();
+            string sql = 
+                @"SELECT
+	                * 
+                FROM 
+	                DeliverableBluf 
+                WHERE 
+	                    Date = (SELECT MAX(Date) FROM DeliverableBluf WHERE DeliverableId = @Id)
+                    AND
+		                DeliverableId = @Id";
+
+            return db.Query<Bluf>(sql, new { Id = id }).SingleOrDefault();
         }
 
-        public void UpdateBluf(Bluf bluf)
+        public void PostBluf(Bluf bluf)
         {
             //By design, the update functions add a new row to the database, therefore not deleting the previous data.
-
-            DateTime date = DateTime.Now;
 
             var sql = @"INSERT INTO[dbo].[DeliverableBluf]
                         ([DeliverableId]
                           ,[Schedule]
                           ,[Budget]
                           ,[Scope]
-                          ,[OtherRisks]
                           ,[Issues]
+                          ,[OtherRisks]
                           ,[Date])
                        VALUES
                             @DeliverableId,
                             @Schedule,
                             @Budget,
                             @Scope,
-                            @OtherRisks,
                             @Issues,
+                            @OtherRisks,
                             @Date";
 
             var isSuccess = db.Execute(sql,
@@ -56,9 +64,9 @@ namespace BltServices
                     @Schedule = bluf.Schedule ,
                     @Budget = bluf.Budget,
                     @Scope = bluf.Scope ,
-                    @OtherRisks = bluf.OtherRisks,
                     @Issues = bluf.Issues,
-                    @Date = date,
+                    @OtherRisks = bluf.OtherRisks,
+                    @Date = bluf.Date,
                 }
             );
         }

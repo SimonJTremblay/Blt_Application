@@ -8,6 +8,6 @@ namespace BltData
     public interface IBluf
     {
         Bluf GetById(int id);
-        void UpdateBluf(Bluf bluf);
+        void PostBluf(Bluf bluf);
     }
 }
