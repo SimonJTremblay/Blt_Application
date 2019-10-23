@@ -42,6 +42,7 @@
           :projectsList = "projectsList"
           @deleteDeliverable="deleteDeliverable"
           @save-deliverable="updateDeliverable"
+          @save-bluf="saveBluf"
         />
       </ul>
     </section> 
@@ -58,6 +59,7 @@ import SingleProject from '../components/SingleProject';
 import ModelViewNavigation from '../components/ModelViewNavigation';
 import ProjectApi from '../ProjectApiFacade';
 import DeliverableApi from '../DeliverableApiFacade';
+import BlufApi from '../BlufApiFacade.js';
 import AddDeliverable from '../components/AddDeliverableComponent';
 
 export default {
@@ -172,6 +174,13 @@ export default {
         this.getDeliverablesFromProject(this.currentProject.projectId);
       }
     },
+    async saveBluf(bluf){
+      await BlufApi.create(bluf);
+
+      if(!this.isProjectNull()){
+        this.getDeliverablesFromProject(this.currentProject.projectId);
+      }
+    }
   } //methods
 }
 

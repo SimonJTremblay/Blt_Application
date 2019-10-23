@@ -46,10 +46,10 @@ export default {
   components:{
       'deliverable-edit-component': DeliverableEditComponent,
   },
-  props:[
-      'currentDeliverable',
-      'projectsList'
-  ],
+  props: {
+      currentDeliverable: Object,
+      projectsList: Array
+  },
   methods:{
     sendDeliverableToParent(deliverableToSave){
       //let deliverable = this.$refs.editedDeliverable.deliverableToSave;

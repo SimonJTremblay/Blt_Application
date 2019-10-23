@@ -12,17 +12,17 @@
             <button @click="show">show</button>
         </li>
 
-        <!-- use the modal component, pass in the prop -->
+            <!-- use the modal component, pass in the prop -->
         <bluf-modal 
             v-if="showBlufModal" 
             @close="showBlufModal = false"
             @saved="updateStatusColorAndCloseModal"
             :deliverable='currentDeliverable' 
         >
-        <!--
-            you can use custom content here to overwrite
-            default content
-        -->
+            <!--
+                you can use custom content here to overwrite
+                default content
+            -->
             <h3 v-if="blufDoesNotExist" slot="header">No BLUF Report Found.</h3>
             <template v-else>
                 <h3 slot="header">{{currentDeliverable.heading}}</h3>
@@ -30,7 +30,6 @@
             </template>
 
             <div slot="body"> </div>
-
         </bluf-modal>
 
         <delete-confirmation-modal v-if="showDeleteConfirmation" @no="showDeleteConfirmation = false" @yes="emitMessageAndClose(currentDeliverable)">
@@ -123,9 +122,14 @@ export default {
         toggleDeliverableEditModal(){
             this.showDeliverableEditModal = !this.showDeliverableEditModal;
         },
-        updateStatusColorAndCloseModal(bluf){
-            this.DeliverableStatusColor = String(bluf);
+        updateStatusColorAndCloseModal(bluf, statusColor){
+            // Update Deliverable bluf status color
+            this.DeliverableStatusColor = String(statusColor);
             this.showBlufModal = false;
+
+            // Emits message to parent to save the bluf
+            this.$emit('save-bluf', bluf);
+
         },
         emitMessageAndClose(deliverable){
             this.$emit('deleteDeliverable', deliverable.deliverableId);
@@ -139,7 +143,6 @@ export default {
             return date.substr(0,10);       //Substring to get only date portion of parameter
         },
         getBlufStatus(){
-
             //Assign Deliverable Color
             this.DeliverableStatusColor = this.getStatusColor();
         },

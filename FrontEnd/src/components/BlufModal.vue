@@ -63,9 +63,15 @@
               <button class="modal-default-button" @click="$emit('close')">
                 Cancel
               </button>
-              <button class="modal-default-button" @click="saveBluf">
+              <button class="modal-default-button" @click="saveBluf" v-bind:disabled="!BlufIsCompleteOrDifferent">
                 Save
               </button>
+              {{BlufIsCompleteOrDifferent}}
+              {{Schedule}}
+              {{Budget}}
+              {{Scope}}
+              {{Issues}}
+              {{OtherRisks}}
           </div>
 
         </div>
@@ -81,7 +87,9 @@ export default {
   components:{
       'radio-button' : RadioButtons
   },
-  props:['deliverable'],
+  props: {
+    deliverable: Object,
+  },
   data(){
       return{
           Schedule:0,
@@ -89,12 +97,20 @@ export default {
           Scope:0,
           OtherRisks:0,
           Issues:0,
-          currentBluf:null
+          currentBluf:null,
       }
   },
   computed:{
     StatusColor: function(){
-      return this.getStatusColor()      
+        return this.getStatusColor()      
+    },
+    BlufIsCompleteOrDifferent:function(){
+      if(this.deliverable.bluf){
+        return (this.Schedule != this.deliverable.bluf.schedule ||  this.Budget != this.deliverable.bluf.budget ||  this.Scope != this.deliverable.bluf.scope ||  this.OtherRisks != this.deliverable.bluf.otherRisks ||  this.Issues != this.deliverable.bluf.issues)
+      }
+      else{
+        return (this.Schedule > 0 && this.Budget > 0 && this.Scope > 0 && this.OtherRisks > 0 && this.Issues > 0) 
+      }
     }
   },
   methods:{
@@ -113,47 +129,50 @@ export default {
       changeValueOtherRisks: function(newValue){
           this.OtherRisks = newValue;
       },
-      saveBluf(){
-          // const bluf = {
-          //     Schedule: this.Schedule,
-          //     Budget: this.Budget,
-          //     Scope: this.Scope,
-          //     OtherRisks: this.OtherRisks,
-          //     Issues: this.Issues,
-          // }
-          //will need an API and call this API to update the bluf in the db
-          //the emit sends a message to parent indicating the statusColor the deliverable tab should have
-          this.$emit('saved', this.StatusColor);
-      },
+      saveBluf(){          
+        // Instanciate a bluf value from data and use API call to send the bluf
+        const date = new Date();
+        const bluf = {
+            DeliverableId: this.deliverable.deliverableId,
+            Schedule: this.Schedule,
+            Budget: this.Budget,
+            Scope: this.Scope,
+            Issues: this.Issues,
+            OtherRisks: this.OtherRisks,
+            Date: this.formatDate(date)
+          }
+
+        this.$emit('saved', bluf, this.StatusColor);
+    },
       getStatusColor(){
-        this.currentBluf = {
-              Schedule: this.Schedule,
-              Budget: this.Budget,
-              Scope: this.Scope,
-              OtherRisks: this.OtherRisks,
-              Issues: this.Issues,
-          }
-        let atRisk = [];
-        let Problem = [];
+          this.currentBluf = {
+                Schedule: this.Schedule,
+                Budget: this.Budget,
+                Scope: this.Scope,
+                OtherRisks: this.OtherRisks,
+                Issues: this.Issues,
+            }
+          let atRisk = [];
+          let Problem = [];
 
-        Object.values(this.currentBluf).forEach(item =>{
-          if (item == 2){
-            atRisk.push(item);
-          }
-          else if (item == 3){
-            Problem.push(item);
-          }
-        });
+          Object.values(this.currentBluf).forEach(item =>{
+            if (item == 2){
+              atRisk.push(item);
+            }
+            else if (item == 3){
+              Problem.push(item);
+            }
+          });
 
-        if (Problem.length > 0){
-          return 'isRed';
-        }
-        else if (atRisk.length > 0){
-          return 'isYellow';            
-        }
-        else{
-          return 'isGreen';            
-        }
+          if (Problem.length > 0){
+            return 'isRed';
+          }
+          else if (atRisk.length > 0){
+            return 'isYellow';            
+          }
+          else{
+            return 'isGreen';            
+          }
       },
       assignBluf(){
         if(this.deliverable.bluf){
@@ -170,7 +189,20 @@ export default {
           this.OtherRisks = 0;
           this.Issues = 0;
         }
-      }
+      },
+      formatDate(date) {
+          var d = new Date(date),
+              month = '' + (d.getMonth() + 1),
+              day = '' + d.getDate(),
+              year = d.getFullYear();
+
+          if (month.length < 2) 
+              month = '0' + month;
+          if (day.length < 2) 
+              day = '0' + day;
+
+          return [year, month, day].join('-');
+    }
   },  //methods
   async created(){
         this.assignBluf();
