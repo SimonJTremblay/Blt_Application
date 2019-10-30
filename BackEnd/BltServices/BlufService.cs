@@ -49,13 +49,13 @@ namespace BltServices
                           ,[OtherRisks]
                           ,[Date])
                        VALUES
-                            @DeliverableId,
+                            (@DeliverableId,
                             @Schedule,
                             @Budget,
                             @Scope,
                             @Issues,
                             @OtherRisks,
-                            @Date";
+                            @Date)";
 
             var isSuccess = db.Execute(sql,
                 new
@@ -66,7 +66,7 @@ namespace BltServices
                     @Scope = bluf.Scope ,
                     @Issues = bluf.Issues,
                     @OtherRisks = bluf.OtherRisks,
-                    @Date = bluf.Date,
+                    @Date = bluf.Date
                 }
             );
         }

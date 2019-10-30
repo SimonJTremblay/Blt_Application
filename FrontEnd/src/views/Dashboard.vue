@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div>
-      <Toolbar v-on:switchComponent="switchComponent" />
+      <toolbar v-on:switchComponent="switchComponent" />
     </div>
     <div>
       <component :is="currentComp" 
@@ -26,7 +26,7 @@ export default {
     'project-cards' : ProjectCards,
     'project-table' : ProjectTable,
     'project-list' : ProjectList,
-    Toolbar
+    'toolbar' : Toolbar
   },//components
 
   data(){

@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export const HTTP = axios.create({
-  baseURL:'https://localhost:44305/api/Bluf',
+  baseURL:'https://localhost:44305/api/bluf',
   timeout: 2000,
   json:true
 })

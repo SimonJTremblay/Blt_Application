@@ -29,6 +29,7 @@ namespace BltApplication
             services.AddScoped<IDeliverable, DeliverableService>();
             services.AddScoped<IEmployee, EmployeeService>();
             services.AddScoped<ITask, TaskService>();
+            services.AddScoped<IBluf, BlufService>();
 
             services.AddDbContext<BltContext>(options 
                => options.UseSqlServer(Configuration.GetConnectionString("SQLConnection")));
