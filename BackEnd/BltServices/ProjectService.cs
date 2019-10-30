@@ -97,13 +97,16 @@ namespace BltServices
             //Call method to return Deliverable + ProjectList
             IEnumerable<Deliverable> ListDeliverables = GetDeliverablesFromProject(projectId);
 
+
+            // Decided to go with max(blufId) instead of date to prevent if the bluf is
+            // edited more than once in a given day.
             string sql =
                 @"SELECT
 	                * 
                 FROM 
 	                DeliverableBluf 
                 WHERE 
-	                    Date = (SELECT MAX(Date) FROM DeliverableBluf WHERE DeliverableId = @id)
+	                    BlufId = (SELECT MAX(BlufId) FROM DeliverableBluf WHERE DeliverableId = @id)
                     AND
 		                DeliverableId = @id";
 
