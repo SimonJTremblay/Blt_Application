@@ -28,8 +28,7 @@ export default {
     line-height: 1.4;
   }
 
-  .btn{
-    display: inline-block;
+  .btn{    
     border: none;
     background: #555;
     color: #fff;
@@ -38,22 +37,22 @@ export default {
   }
 
   .btn:hover{
-    background: #666;
+    background: rgb(114, 113, 113);
   }
 
   .isRed{
-    background: #dd3f3f;
+    background: #f03c3c;
   }  
   .isRed:hover{
-    background: #df5c5c;
+    background: #db6969;
   }
   .isYellow{
-    background: #dfdf2a;
+    background: #f1f12d;
   }  
   .isGreen{
-    background: #32bb32;
+    background: #29ff29;
   }
   .isGrey{
-    background: #948b8b;
+    background: #bbb9b9;
   }
 </style>

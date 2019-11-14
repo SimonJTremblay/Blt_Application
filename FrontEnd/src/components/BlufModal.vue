@@ -15,63 +15,50 @@
             <slot name="body">
               default body
             </slot>
-            <form>
-                <!-- Schedule
-                Budget
-                Scope
-                Other Risks
-                Issues -->
-                <div class="division">
-                    <label for="schedule">Schedule: (value: {{Schedule}})</label><br>
-                    <radio-button name="schedule" label="1" :value="Schedule" textDisplay="As Planned" @change="changeValueSchedule"/>
-                    <radio-button name="schedule" label="2" :value="Schedule" textDisplay="At Risk" @change="changeValueSchedule"/>
-                    <radio-button name="schedule" label="3" :value="Schedule" textDisplay="Problem(s)" @change="changeValueSchedule"/>
-                </div>
-                
-                <div class="division">
-                    <label for="budget">Budget: (value: {{Budget}})</label><br>
-                    <radio-button name="budget" label="1" :value="Budget" textDisplay="As Planned" @change="changeValueBudget"/>
-                    <radio-button name="budget" label="2" :value="Budget" textDisplay="At Risk" @change="changeValueBudget"/>
-                    <radio-button name="budget" label="3" :value="Budget" textDisplay="Problem(s)" @change="changeValueBudget"/>
-                </div>
 
-                <div class="division">
-                    <label for="scope">Scope: (value: {{Scope}}) </label><br>
-                    <radio-button name="scope" label="1" :value="Scope" textDisplay="As Planned" @change="changeValueScope"/>
-                    <radio-button name="scope" label="2" :value="Scope" textDisplay="At Risk" @change="changeValueScope"/>
-                    <radio-button name="scope" label="3" :value="Scope" textDisplay="Problem(s)" @change="changeValueScope"/>
-                </div>
-
-                <div class="division">
-                    <label for="issues">Issues: (value: {{Issues}})</label><br>
-                    <radio-button name="issues" label="1" :value="Issues" textDisplay="As Planned" @change="changeValueIssues"/>
-                    <radio-button name="issues" label="2" :value="Issues" textDisplay="At Risk" @change="changeValueIssues"/>
-                    <radio-button name="issues" label="3" :value="Issues" textDisplay="Problem(s)" @change="changeValueIssues"/>
-                </div>
-
-                <div class="division">
-                    <label for="otherRisks">OtherRisks: (value: {{OtherRisks}})</label><br>
-                    <radio-button name="otherRisks" label="1" :value="OtherRisks" textDisplay="As Planned" @change="changeValueOtherRisks"/>
-                    <radio-button name="otherRisks" label="2" :value="OtherRisks" textDisplay="At Risk" @change="changeValueOtherRisks"/>
-                    <radio-button name="otherRisks" label="3" :value="OtherRisks" textDisplay="Problem(s)" @change="changeValueOtherRisks"/>
-                </div>
-          </form>
+          <div class="blufItem">
+            <label for="schedule">Schedule:</label>
+            <radio-buttons-selector name="schedule" :currentValue="Schedule" @updateSelection="changeValueSchedule"/>
           </div>
 
+          <div class="blufItem">
+            <label for="Budget">Budget:</label>
+            <radio-buttons-selector name="Budget" :currentValue="Budget" @updateSelection="changeValueBudget"/>
+          </div>
+
+          <div class="blufItem">
+            <label for="Scope">Scope:</label>
+            <radio-buttons-selector name="Scope" :currentValue="Scope" @updateSelection="changeValueScope"/>
+          </div>
+
+          <div class="blufItem">
+            <label for="Issues">Issues:</label>
+            <radio-buttons-selector name="Issues" :currentValue="Issues" @updateSelection="changeValueIssues"/>
+          </div>
+
+          <div class="blufItem">
+            <label for="OtherRisks">Other Risks:</label>
+            <radio-buttons-selector name="OtherRisks" :currentValue="OtherRisks" @updateSelection="changeValueOtherRisks"/>
+          </div>
+
+        </div>
+
           <div class="modal-footer">
-            <slot name="footer" />
-              <button class="modal-default-button" @click="$emit('close')">
-                Cancel
-              </button>
-              <button class="modal-default-button" @click="saveBluf" v-bind:disabled="!BlufIsCompleteOrDifferent">
+            <div class="NavButtons">
+              <button class="btn modal-default-button" @click="saveBluf" v-bind:disabled="!BlufIsCompleteOrDifferent">
                 Save
               </button>
-              {{BlufIsCompleteOrDifferent}}
+              <button class="btn modal-default-button" @click="$emit('close')">
+                Cancel
+              </button>
+            </div>
+              <slot name="footer" />
+              <!-- {{BlufIsCompleteOrDifferent}}
               {{Schedule}}
               {{Budget}}
               {{Scope}}
               {{Issues}}
-              {{OtherRisks}}
+              {{OtherRisks}} -->
           </div>
 
         </div>
@@ -82,10 +69,11 @@
 </template>
 
 <script>
-import RadioButtons from '../components/RadioButtons'
+import RadioButtonsSelector from '../components/RadioButtonsSelector'
+
 export default {
   components:{
-      'radio-button' : RadioButtons
+      'radio-buttons-selector' : RadioButtonsSelector
   },
   props: {
     deliverable: Object,
@@ -230,10 +218,10 @@ export default {
 }
 
 .modal-container {
-  width: 400px;
+  width: 450px;
   margin: 0px auto;
   padding: 20px 30px;
-  background-color: #fff;
+  background-color: rgb(255, 255, 255);
   border-radius: 2px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
   transition: all .3s ease;
@@ -249,9 +237,6 @@ export default {
   margin: 20px 0;
 }
 
-.modal-default-button {
-  float: right;
-}
 
 /*
  * The following styles are auto-applied to elements with
@@ -279,4 +264,22 @@ export default {
 .division{
     margin-bottom: 15px;
 }
+
+label{
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.blufItem{
+  margin-bottom: 15px;
+}
+
+.NavButtons{
+  display: flex;
+  justify-content: flex-end;
+}
+.NavButtons > button{
+  margin-left: 10px;
+}
+
 </style>
