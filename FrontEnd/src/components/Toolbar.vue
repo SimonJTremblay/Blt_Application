@@ -12,11 +12,6 @@
         @click="$emit('switchComponent','project-cards')"
         >GridView</button>
 
-        <button 
-        class="btn"
-        name="ListViewBtn"
-        @click="$emit('switchComponent','project-list')"
-        >ListView</button>
     </div>
 </template>
 
@@ -30,7 +25,10 @@ export default {
     .container{
         display:flex;
         justify-content: flex-end;
-        margin-bottom: 20px;
+        margin-bottom: 10px;
+    }
+    button{
+        padding: 10px 30px;
     }
 </style>
 
