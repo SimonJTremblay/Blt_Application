@@ -15,7 +15,6 @@
 <script>
 import ProjectCards from "../components/ProjectCards";
 import ProjectTable from "../components/ProjectTable";
-import ProjectList from "../components/ProjectList";
 import Toolbar from "../components/Toolbar";
 import ProjectApi from '../ProjectApiFacade';
 import EmployeeApi from '../EmployeeApiFacade';
@@ -25,7 +24,6 @@ export default {
   components: {
     'project-cards' : ProjectCards,
     'project-table' : ProjectTable,
-    'project-list' : ProjectList,
     'toolbar' : Toolbar
   },//components
 
