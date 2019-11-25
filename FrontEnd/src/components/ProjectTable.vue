@@ -1,18 +1,16 @@
 <template>
     <div>
-        <table>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Descrition</th>
-                <th>Lead</th>
-            </tr>
+        <section class="table-header">
+                <h3 class="item weight1">ProjectId</h3>
+                <h3 class="item weight3">Title</h3>
+                <h3 class="item weight4">Descrition</h3>
+                <h3 class="item weight2">Lead</h3>
+        </section>
             <project-table-item
                 v-for="(item, i) in projectsArray"
                 :project="item"
                 :key="i"
             />
-        </table>
     </div>
 </template>
 
@@ -28,24 +26,30 @@ export default {
 }
 </script>
 <style scoped>
-    table{
-        width:100%;
+    .table-header{
+        display: flex;
+        padding: 0 10px;
     }
-    table tr:nth-child(even) {
-        background-color: #eee;
+
+    .item{
+        padding: 5px 10px;
+        background: #000;
+        color: #fff;
+        border-left: solid white 2px;
     }
-    table tr:nth-child(odd) {
-        background-color: #fff;
+    .item:first-child {
+        border-left: none;
     }
-    table th {
-        color: white;
-        background-color: black;
-        text-align: left;
-        padding: 10px;
-        font-size: 1.2rem;
+    .weight1{
+        flex-basis: 5%;
     }
-    table tr:hover{
-        background-color: rgb(111, 135, 202);
-        cursor: pointer;
+    .weight2{
+        flex-basis: 20%;
+    }
+    .weight3{
+        flex-basis: 30%;        
+    }
+    .weight4{
+        flex-basis: 45%;        
     }
 </style>
