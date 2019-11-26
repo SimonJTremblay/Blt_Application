@@ -3,14 +3,28 @@
         <h5 class="item weight1">{{project.projectId}}</h5>
         <h5 class="item weight3">{{project.name}}</h5>
         <h5 class="item weight4">{{project.description}}</h5>
+        <h5 class="item weight2">{{project.owner}}</h5>
         <h5 class="item weight2">{{project.lead}}</h5>
+        <status-flag-color class="item weight1" v-bind:minBlufValue = "minBlufValue"/>
     </div>  
 </template>
 
 <script>
+import StatusFlagColor from './StatusFlagColor'
 export default {
     name: 'project-table-item',
     props: ['project'],
+    components:{
+        'status-flag-color': StatusFlagColor
+    },
+    data(){
+        return{
+            minBlufValue:''
+        }
+    },
+    async created(){
+        this.minBlufValue = await this.getStatusColor(this.project);
+    },
     methods:{
         redirectToProjectView(){
             this.$router.push(
@@ -19,8 +33,20 @@ export default {
                     params: { project: this.project }
                 }
             )
-        }
-    }    
+        },
+         getStatusColor(project){
+            switch(project.maxBluf){
+              case(1):
+                  return 'isGreen'
+              case(2):
+                  return 'isYellow'
+              case(3):
+                  return 'isRed'
+              default:
+                  return 'isGrey'
+          }
+        },
+    }   //methods    
 }
 </script>
 
@@ -40,17 +66,17 @@ export default {
         padding: 5px 10px;
     }
     .weight1{
-        flex-basis: 7%;
+        flex-basis: 5%;
         text-align: center;
     }
     .weight2{
-        flex-basis: 19%;
+        flex-basis: 14%;
     }
     .weight3{
-        flex-basis: 29%;        
+        flex-basis: 37%;        
     }
     .weight4{
-        flex-basis: 45%;        
+        flex-basis: 25%;        
     }
 </style>
 

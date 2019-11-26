@@ -1,14 +1,17 @@
 <template>
     <div>
         <section class="table-header">
-                <h3 class="item weight1">ProjectId</h3>
+                <h3 class="item weight1">Id</h3>
                 <h3 class="item weight3">Title</h3>
                 <h3 class="item weight4">Descrition</h3>
+                <h3 class="item weight2">Owner</h3>
                 <h3 class="item weight2">Lead</h3>
+                <h3 class="item weight1">Status</h3>
         </section>
             <project-table-item
-                v-for="(item, i) in projectsArray"
-                :project="item"
+                class="project-table-item"
+                v-for="(project, i) in projectsArray"
+                :project="project"
                 :key="i"
             />
     </div>
@@ -29,6 +32,7 @@ export default {
     .table-header{
         display: flex;
         padding: 0 10px;
+        background: #000;
     }
 
     .item{
@@ -44,12 +48,16 @@ export default {
         flex-basis: 5%;
     }
     .weight2{
-        flex-basis: 20%;
+        flex-basis: 15%;
     }
     .weight3{
-        flex-basis: 30%;        
+        flex-basis: 40%;        
     }
     .weight4{
-        flex-basis: 45%;        
+        flex-basis: 30%;        
+    }
+    .project-table-item{
+        font-size: 1.3em;
+        padding: 0 10px;
     }
 </style>
