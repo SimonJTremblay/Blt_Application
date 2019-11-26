@@ -5,7 +5,8 @@
                 class="projectCard"
                 v-bind:project = "project"
                 v-bind:projectsArray = "projectsArray"
-            />            
+            />  
+            <!-- WHY AM I PASSING projectsArra???-->          
         </div>
     </div>
 </template>
@@ -30,9 +31,16 @@ export default {
         height: 50vh;
     }
     .projectCard{
-        font-size: 1.5rem;
-        padding: 50px;
+        font-size: 1.3rem;
+        padding: 20px;
         margin: 10px;
+        border-radius: 25px;
+        background: #f4f4f4;
+    }
+
+     .projectCard:hover{
+        cursor:pointer;
+        background: #dbdbdb;
     }
 </style>
 
