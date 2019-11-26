@@ -30,7 +30,38 @@ namespace BltServices
 
         public IEnumerable<Project> GetAll()
         {
-            return db.Query<Project>("SELECT * FROM Project");
+            string query =
+                @";with scope as 
+                    (
+	                    SELECT
+		                    d.*,
+		                    ISNULL((SELECT MAX(value) FROM (VALUES (db.Schedule),(db.Budget), (db.Scope), (db.Issues), (db.OtherRisks)) AS AllValues(value)), 0) AS 'MaxValue'
+	                    FROM
+			                    Deliverable d
+		                    left join
+			                    DeliverableBluf db on db.DeliverableId = d.DeliverableId and Date = (SELECT MAX(Date) FROM DeliverableBluf WHERE DeliverableId = d.DeliverableId)
+                    )
+
+                    SELECT 
+	                    p.ProjectId,
+	                    p.Name,
+	                    p.Description,
+                        p.Owner,
+	                    p.Lead,
+	                    ISNULL(max(maxValue),0) as 'MaxBluf'
+                    FROM 
+		                    Project p 
+	                    left join ProjectDeliverable pd on pd.ProjectId = p.ProjectId 
+	                    left join scope s on s.DeliverableId = pd.DeliverableId
+                    GROUP BY
+	                    p.ProjectId,
+	                    p.Name,
+	                    p.Description,
+                        p.Owner,
+	                    p.Lead
+                    ORDER BY
+	                    p.ProjectId";
+            return db.Query<Project>(query);
         }
 
         public Project GetById(int projectId)

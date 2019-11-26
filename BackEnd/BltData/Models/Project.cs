@@ -11,7 +11,9 @@ namespace BltApplication.Models
         public int ProjectId { get; set; }
         public string Name {get;set;}
         public string Description {get;set;}
-        public int Lead {get;set;}
+        public int Owner {get;set;}
+        public int Lead {get;set; }
+        public int? MaxBluf { get; set; }
         public virtual IEnumerable<Deliverable> DeliverableList { get; set; }
     }
 }

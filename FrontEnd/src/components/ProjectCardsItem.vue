@@ -5,8 +5,9 @@
             <status-flag-color v-bind:minBlufValue = "minBlufValue" />
         </div>
         <div class="item description">
-            <p>{{project.name}}</p>
-            <p>Lead: {{project.lead}}</p>            
+            <p class="title">{{project.name}}</p>
+            <p>Owner: {{project.owner}}</p>
+            <p>Lead: {{project.lead ? project.lead: 'N/A'}}</p>            
         </div>
     </div>    
 </template>
@@ -29,14 +30,14 @@ export default {
         this.minBlufValue = await this.getStatusColor(this.project);
     },
     methods: {
-        getStatusColor(status){ // change status for attribute of project -> minBlufValue
-            switch(status){
+        getStatusColor(project){
+            switch(project.maxBluf){
               case(1):
-                  return 'greenCard'
+                  return 'isGreen'
               case(2):
-                  return 'yellowCard'
+                  return 'isYellow'
               case(3):
-                  return 'redCard'
+                  return 'isRed'
               default:
                   return 'isGrey'
           }
@@ -58,6 +59,7 @@ export default {
 </script>
 
 <style scoped>
+
     .project-item{
         display: flex;
         flex-flow: column wrap;
@@ -65,7 +67,7 @@ export default {
     }
     .projectNumber{
         text-align: center;
-    }
+    }    
     .flexed{
         display:flex;
         justify-content: space-between;
@@ -73,16 +75,8 @@ export default {
         margin-bottom: 10px;
         text-decoration: underline;
     }
-    p{
-        margin-bottom: 5px;
+    .title{
+        font-size: 1.3em;
     }
-    .redCard {
-        border: 3px dotted #d62020;
-    }
-    .yellowCard {
-        border: 3px dotted #e0e329;
-    }
-    .greenCard {
-        border: 3px dotted #29e335;
-    }
+    
 </style>

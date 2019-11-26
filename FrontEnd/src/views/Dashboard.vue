@@ -54,11 +54,12 @@ export default {
     },
     changeName(){
       this.projectsArray= this.projectsArray.map(project =>{
-        project.lead = this.getLeadName(project.lead);
+        project.owner = this.getEmployeeName(project.owner);
+        project.lead = this.getEmployeeName(project.lead);
         return project;
       })
     },
-    getLeadName(id){
+    getEmployeeName(id){
       for(let i = 0 ; i < this.employeesArray.length ; i++){
         if(this.employeesArray[i].employeeId === id){
           return this.employeesArray[i].name
