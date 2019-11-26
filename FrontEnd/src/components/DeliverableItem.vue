@@ -25,7 +25,7 @@
             -->
             <h3 v-if="blufDoesNotExist" slot="header">No BLUF Report Found.</h3>
             <template v-else>
-                <h3 slot="header">{{currentDeliverable.heading}}</h3>
+                <h3 slot="header" class="header">{{currentDeliverable.heading}}</h3>
                 <h6 slot="footer">Last Modified Date: {{lastModifiedDate}}</h6>
             </template>
 
@@ -201,6 +201,10 @@ export default {
     }
     .push{
         margin-left: auto;
+    }
+    .header{
+        font-size: 1.5em;
+        text-align: center;
     }
 </style>
 

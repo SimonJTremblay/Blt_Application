@@ -5,7 +5,7 @@
       <div class="modal-wrapper">
         <div class="modal-container">
 
-          <div class="modal-header" :class="StatusColor">
+          <div class="modal-header">
             <slot name="header">
               default header
             </slot>
@@ -236,7 +236,6 @@ export default {
 .modal-body {
   margin: 20px 0;
 }
-
 
 /*
  * The following styles are auto-applied to elements with
