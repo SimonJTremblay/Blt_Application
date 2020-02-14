@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <Header />
-    <router-view/>
+    <Header class="sticky"/>
+    <router-view class="content"/>
   </div>
 </template>
 
@@ -40,6 +40,14 @@ export default {
     background: rgb(114, 113, 113);
   }
 
+  .sticky{
+    position: fixed;
+    top: 0;
+    width: 100%;
+  }
+  .sticky + .content {
+    padding-top: 100px;
+  }
   .isRed{
     background: #f03c3c;
   }  
@@ -49,10 +57,19 @@ export default {
   .isYellow{
     background: #f1f12d;
   }  
+  .isYellow:hover{
+    background: #e9e984;
+  } 
   .isGreen{
     background: #29ff29;
   }
+  .isGreen:hover{
+    background: #97fa97;
+  }
   .isGrey{
     background: #bbb9b9;
+  }
+  .clickable{
+    cursor: pointer;
   }
 </style>

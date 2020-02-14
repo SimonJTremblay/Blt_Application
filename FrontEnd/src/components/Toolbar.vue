@@ -1,5 +1,15 @@
 <template>
     <div class="container">
+        <multi-select
+            v-model="value"
+            :options="options"
+            :close-on-select="true"
+            :searchable="false"
+            :show-labels="false"
+            :allow-empty="false"
+            @select="onSelect"
+        />
+
         <button 
         class="btn"
         name="TableViewBtn"
@@ -16,10 +26,27 @@
 </template>
 
 <script>
+import Multiselect from 'vue-multiselect'; 
+
 export default {
-    name: 'Toolbar'
+    components:{
+        'multi-select': Multiselect,
+    },
+    data(){
+        return{
+            value: 'all',
+            options: ['all', 'personal']
+        }
+    },
+    methods: {
+        onSelect(option){
+            this.$emit('filterChange', option)
+        }
+    }
 }
 </script>
+
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 
 <style scoped>
     .container{

@@ -3,7 +3,7 @@
         <section class="table-header">
                 <h3 class="item weight1">Id</h3>
                 <h3 class="item weight3">Title</h3>
-                <h3 class="item weight4">Descrition</h3>
+                <h3 class="item weight4">Description</h3>
                 <h3 class="item weight2">Owner</h3>
                 <h3 class="item weight2">Lead</h3>
                 <h3 class="item weight1">Status</h3>

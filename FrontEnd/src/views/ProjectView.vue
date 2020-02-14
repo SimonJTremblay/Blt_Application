@@ -33,6 +33,13 @@
     
     <!-- Project Deliverables -->
     <section>
+      <table class="headings">
+        <th>Heading</th>
+        <th>Time Estimate</th>
+        <th>Assigned To</th>
+        <th>Bluf</th>
+        <th></th>
+      </table>
       <ul>
         <deliverable-item 
           v-for="(item, i) in deliverableList"
@@ -209,6 +216,13 @@ export default {
   }
   a.routeToDashBoard.router-link-active{
     color: #555;
+  }
+  .headings{
+    display: flex;
+        flex-direction: row;
+        padding: 5px;
+        margin:5px;
+        border: red solid 2px;
   }
 
 </style>

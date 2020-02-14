@@ -1,7 +1,10 @@
 <template>
   <div id="app">
     <div>
-      <toolbar v-on:switchComponent="switchComponent" />
+      <toolbar 
+        v-on:switchComponent="switchComponent"
+        @filterChange="changeFilter"
+        />
     </div>
     <div>
       <component :is="currentComp" 
@@ -32,6 +35,7 @@ export default {
       loading: false,
       currentComp: 'project-cards',
       projectsArray: [],
+      allProjects:[],
       employeesArray:[]
     } //return
   }, //data
@@ -51,6 +55,7 @@ export default {
         }
 
         this.changeName();
+        this.allProjects = [...this.projectsArray];
     },
     changeName(){
       this.projectsArray= this.projectsArray.map(project =>{
@@ -64,6 +69,20 @@ export default {
         if(this.employeesArray[i].employeeId === id){
           return this.employeesArray[i].name
         }
+      }
+    },
+    changeFilter(filter){
+      if(filter === 'all'){
+        this.projectsArray = [...this.allProjects];
+      }
+      else if(filter === 'personal'){
+        let array = this.projectsArray.filter(project => {
+          if (project.owner === 'Peter Niedre'){
+            return project;
+          }
+        })
+
+        this.projectsArray = [...array];
       }
     }
   }, //methods

@@ -6,7 +6,7 @@
                 v-bind:project = "project"
                 v-bind:projectsArray = "projectsArray"
             />  
-            <!-- WHY AM I PASSING projectsArra???-->          
+            <!-- WHY AM I PASSING projectsArray???-->          
         </div>
     </div>
 </template>
@@ -25,17 +25,16 @@ export default {
 <style scoped>
     .container-projectCard{
         display: grid;
-        grid-gap: 10px;
+        grid-gap: 1rem;
         grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-        justify-content: center;
-        height: 50vh;
+        grid-template-rows: repeat(auto-fill, 1fr);
     }
     .projectCard{
         font-size: 1.3rem;
-        padding: 20px;
-        margin: 10px;
+        padding: 1.5rem;
         border-radius: 25px;
         background: #f4f4f4;
+        height: 100%;
     }
 
      .projectCard:hover{

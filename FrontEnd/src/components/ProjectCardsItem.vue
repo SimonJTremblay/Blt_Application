@@ -1,7 +1,7 @@
 <template>
     <div class="project-item" @click="redirectToProjectView">
         <div class="item flexed projectNumber">
-            Project {{project.projectId}}
+            Project #{{project.projectId}}
             <status-flag-color v-bind:minBlufValue = "minBlufValue" />
         </div>
         <div class="item description">
